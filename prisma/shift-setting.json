@@ -1,0 +1,110 @@
+[
+    {
+        "name": "PELAYANAN",
+        "shiftCode": "P",
+        "checkInAt": "07:00",
+        "checkOutAt": "14:00"
+    },
+    {
+        "name": "PELAYANAN",
+        "shiftCode": "S",
+        "checkInAt": "14:00",
+        "checkOutAt": "21:00"
+    },
+    {
+        "name": "PELAYANAN",
+        "shiftCode": "M",
+        "checkInAt": "21:00",
+        "checkOutAt": "07:00"
+    },
+    {
+        "name": "KANTOR",
+        "shiftCode": "P",
+        "checkInAt": "08:00",
+        "checkOutAt": "16:00"
+    },
+    {
+        "name": "PENYELIA",
+        "shiftCode": "P",
+        "checkInAt": "08:00",
+        "checkOutAt": "16:00"
+    },
+    {
+        "name": "PENYELIA",
+        "shiftCode": "S",
+        "checkInAt": "13:00",
+        "checkOutAt": "21:00"
+    },
+    {
+        "name": "SATPAM",
+        "shiftCode": "P",
+        "checkInAt": "07:00",
+        "checkOutAt": "15:00"
+    },
+    {
+        "name": "SATPAM",
+        "shiftCode": "S",
+        "checkInAt": "15:00",
+        "checkOutAt": "23:00"
+    },
+    {
+        "name": "SATPAM",
+        "shiftCode": "M",
+        "checkInAt": "23:00",
+        "checkOutAt": "07:00"
+    },
+    {
+        "name": "CS",
+        "shiftCode": "P",
+        "checkInAt": "06:00",
+        "checkOutAt": "14:00"
+    },
+    {
+        "name": "CS",
+        "shiftCode": "S",
+        "checkInAt": "13:00",
+        "checkOutAt": "21:00"
+    },
+    {
+        "name": "POLI",
+        "shiftCode": "P",
+        "checkInAt": "07:00",
+        "checkOutAt": "15:00"
+    },
+    {
+        "name": "POLI",
+        "shiftCode": "S",
+        "checkInAt": "13:00",
+        "checkOutAt": "20:00"
+    },
+    {
+        "name": "POLI",
+        "shiftCode": "M",
+        "checkInAt": "10:00",
+        "checkOutAt": "20:00"
+    },
+    {
+        "name": "DAPUR",
+        "shiftCode": "P",
+        "checkInAt": "04:30",
+        "checkOutAt": "12:00"
+    },
+    {
+        "name": "DAPUR",
+        "shiftCode": "S",
+        "checkInAt": "10:00",
+        "checkOutAt": "17:00"
+    },
+    {
+        "name": "KHAMNA",
+        "shiftCode": "P",
+        "checkInAt": "09:00",
+        "checkOutAt": "15:00"
+    },
+    {
+        "name": "FARIDA",
+        "shiftCode": "P",
+        "checkInAt": "08:00",
+        "checkOutAt": "14:00"
+    }
+]

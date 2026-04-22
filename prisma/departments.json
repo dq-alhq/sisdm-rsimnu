@@ -1,0 +1,112 @@
+[
+    {
+        "name": "Manajemen",
+        "id": "mnj",
+        "isMedis": false
+    },
+    {
+        "name": "Rekam Medis",
+        "id": "rm",
+        "isMedis": true
+    },
+    {
+        "name": "Administrasi",
+        "id": "adm",
+        "isMedis": false
+    },
+    {
+        "name": "IGD",
+        "id": "igd",
+        "isMedis": true
+    },
+    {
+        "name": "Dokter",
+        "id": "digd",
+        "isMedis": true
+    },
+    {
+        "name": "Spesialis",
+        "id": "sp",
+        "isMedis": true
+    },
+    {
+        "name": "Kamar Bersalin",
+        "id": "vk",
+        "isMedis": true
+    },
+    {
+        "name": "Poli",
+        "id": "rjl",
+        "isMedis": true
+    },
+    {
+        "name": "Rawat Inap",
+        "id": "rwn",
+        "isMedis": true
+    },
+    {
+        "name": "ICU",
+        "id": "icu",
+        "isMedis": true
+    },
+    {
+        "name": "Perinatologi",
+        "id": "prn",
+        "isMedis": true
+    },
+    {
+        "name": "Bedah Central",
+        "id": "ok",
+        "isMedis": true
+    },
+    {
+        "name": "Farmasi",
+        "id": "frm",
+        "isMedis": true
+    },
+    {
+        "name": "Radiologi",
+        "id": "rad",
+        "isMedis": true
+    },
+    {
+        "name": "Laboratorium",
+        "id": "lab",
+        "isMedis": true
+    },
+    {
+        "name": "Gizi",
+        "id": "gz",
+        "isMedis": true
+    },
+    {
+        "name": "Kesling",
+        "id": "ksl",
+        "isMedis": false
+    },
+    {
+        "name": "Atem",
+        "id": "atm",
+        "isMedis": true
+    },
+    {
+        "name": "Sarpras",
+        "id": "srp",
+        "isMedis": false
+    },
+    {
+        "name": "Satpam",
+        "id": "stp",
+        "isMedis": false
+    },
+    {
+        "name": "Penyelia",
+        "id": "pny",
+        "isMedis": true
+    },
+    {
+        "name": "Driver",
+        "id": "drv",
+        "isMedis": false
+    }
+]

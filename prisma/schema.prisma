@@ -1,0 +1,272 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+//////////////////////////
+// AUTH
+//////////////////////////
+
+model User {
+  id              String    @id
+  name            String
+  email           String
+  emailVerified   Boolean   @default(false)
+  image           String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  role            String?   @default("user")
+  banned          Boolean?  @default(false)
+  banReason       String?
+  banExpires      DateTime?
+  username        String?
+  displayUsername String?
+
+  sessions Session[]
+  accounts Account[]
+  leaves   Leave[]
+  employee Employee?
+
+  @@unique([email])
+  @@unique([username])
+  @@map("user")
+}
+
+model Session {
+  id             String   @id
+  expiresAt      DateTime
+  token          String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  ipAddress      String?
+  userAgent      String?
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  impersonatedBy String?
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+enum Gender {
+  L
+  P
+}
+
+enum EmployeeStatus {
+  active
+  probation
+  inactive
+  resigned
+}
+
+enum LeaveType {
+  annual
+  sick
+  maternity
+  other
+}
+
+enum LeaveStatus {
+  pending
+  supervisorApproved
+  hrApproved
+  rejected
+}
+
+model Department {
+  id       String  @id @default(cuid())
+  name     String
+  isMedis  Boolean @default(false)
+  isActive Boolean @default(true)
+
+  employees EmployeesOnDepartments[]
+  createdAt DateTime                 @default(now())
+  updatedAt DateTime                 @updatedAt
+
+  @@map("department")
+}
+
+model Employee {
+  id   String @id @default(cuid())
+  name String
+
+  gender Gender
+  prefix String?
+  suffix String?
+  phone  String?
+  email  String?
+
+  joinDate String
+  endDate  String?
+  status   EmployeeStatus @default(active)
+
+  birthPlace String?
+  birthDate  String?
+  nik        String?
+
+  education String?
+  address   String?
+
+  str      String?
+  strEnd   String?
+  sip      String?
+  sipStart String?
+  sipEnd   String?
+
+  bpjsKes String?
+  bpjsTk  String?
+  npwp    String?
+
+  fingerprint String?
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  leaveQuota Int @default(0)
+
+  departments       EmployeesOnDepartments[]
+  group             String?
+  schedules         Schedule[]
+  leaves            Leave[]                  @relation("requester")
+  replacements      Leave[]                  @relation("replacement")
+  employeeDocuments EmployeeDocument[]
+
+  @@map("employee")
+}
+
+model EmployeesOnDepartments {
+  position String?
+  file     String?
+  number   String
+
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  employeeId   String
+  employee     Employee   @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  assignedAt String
+  shift      String?
+  endAt      String?
+
+  @@id([departmentId, employeeId, number])
+  @@map("employees_on_departments")
+}
+
+model ShiftPattern {
+  A String
+  B String
+  C String
+  D String
+
+  date String
+
+  @@id([date])
+  @@unique([A, B, C, D, date])
+  @@map("shift_pattern")
+}
+
+model ShiftSetting {
+  id        String  @id @default(cuid())
+  name      String
+  shiftCode String?
+
+  checkInAt  String?
+  checkOutAt String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("shift_setting")
+}
+
+model Schedule {
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  date      String
+  shiftCode String
+
+  checkInAt  String?
+  checkOutAt String?
+
+  late           String?
+  earlyDeparture String?
+  totalWorkHours String?
+
+  note String?
+
+  @@id([employeeId, date])
+  @@map("schedule")
+}
+
+model Leave {
+  id         String    @id @default(cuid())
+  leaveType  LeaveType @default(annual)
+  reason     String?
+  employeeId String
+  employee   Employee  @relation("requester", fields: [employeeId], references: [id], onDelete: Cascade)
+  startDate  String
+  endDate    String
+
+  status LeaveStatus @default(pending)
+
+  approverId String?
+  approver   User?   @relation(fields: [approverId], references: [id])
+
+  rejectedReason String?
+
+  replacedById String?
+  replacedBy   Employee? @relation("replacement", fields: [replacedById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("leave")
+}
+
+model EmployeeDocument {
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  documentType String
+  documentName String
+  documentUrl  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([employeeId, documentType])
+  @@map("employee_document")
+}
