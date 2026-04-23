@@ -42,8 +42,8 @@ export const EmployeesTable = ({ employees }: { employees: GetEmployeesResult['d
                         </TableCell>
                         <TableCell>
                             <div className='flex flex-col'>
-                                <div className='font-medium text-sm'>{employee?.departments[0].department.name}</div>
-                                <span className='text-muted-fg text-xs'>{employee.departments[0].position}</span>
+                                <div className='font-medium text-sm'>{employee?.departments[0]?.department?.name}</div>
+                                <span className='text-muted-fg text-xs'>{employee.departments[0]?.position}</span>
                             </div>
                         </TableCell>
                         <TableCell>

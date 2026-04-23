@@ -47,7 +47,7 @@ export function Description({ className, ...props }: TextProps) {
 
 export function Fieldset({ className, ...props }: React.ComponentProps<'fieldset'>) {
     return (
-        <fieldset className={twMerge('*:data-[slot=text]:mt-1 [&>*+[data-slot=control]]:mt-6', className)} {...props} />
+        <fieldset className={twMerge('*:data-[slot=text]:mt-1 [&>*+[data-slot=control]]:mt-4', className)} {...props} />
     )
 }
 

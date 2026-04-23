@@ -11,4 +11,14 @@ export const filterSchema = z.object({
 })
 export type FilterSchema = z.infer<typeof filterSchema>
 
+export const parseFormData = (data: FormData) => {
+    const formData: Record<string, string> = {}
+    data.forEach((value, key) => {
+        if (typeof value === 'string') {
+            formData[key] = value
+        }
+    })
+    return formData
+}
+
 export default z

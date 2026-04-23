@@ -118,36 +118,29 @@ model Department {
 }
 
 model Employee {
-  id   String @id @default(cuid())
-  name String
-
-  gender Gender
-  prefix String?
-  suffix String?
-  phone  String?
-  email  String?
-
-  joinDate String
-  endDate  String?
-  status   EmployeeStatus @default(active)
-
-  birthPlace String?
-  birthDate  String?
-  nik        String?
-
-  education String?
-  address   String?
-
-  str      String?
-  strEnd   String?
-  sip      String?
-  sipStart String?
-  sipEnd   String?
-
-  bpjsKes String?
-  bpjsTk  String?
-  npwp    String?
-
+  id          String         @id @default(cuid())
+  name        String
+  gender      Gender
+  prefix      String?
+  suffix      String?
+  phone       String?
+  email       String?
+  joinDate    String
+  endDate     String?
+  status      EmployeeStatus @default(active)
+  birthPlace  String?
+  birthDate   String?
+  nik         String?
+  education   String?
+  address     String?
+  str         String?
+  strEnd      String?
+  sip         String?
+  sipStart    String?
+  sipEnd      String?
+  bpjsKes     String?
+  bpjsTk      String?
+  npwp        String?
   fingerprint String?
 
   userId String @unique

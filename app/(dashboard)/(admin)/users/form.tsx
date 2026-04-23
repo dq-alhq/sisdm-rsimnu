@@ -30,6 +30,11 @@ export function UserForm({ user }: { user?: User }) {
                     <Input placeholder='Name' />
                     <FieldError />
                 </TextField>
+                <TextField defaultValue={user?.displayUsername ?? ''} isRequired name='displayUsername'>
+                    <Label>Display Username</Label>
+                    <Input placeholder='Display Username' />
+                    <FieldError />
+                </TextField>
                 <TextField autoComplete='username' defaultValue={user?.username ?? ''} name='username'>
                     <Label>Username</Label>
                     <Input placeholder='Username' />

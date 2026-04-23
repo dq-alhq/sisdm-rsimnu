@@ -174,6 +174,7 @@ export async function updatePassword(_: any, formData: FormData) {
 const updateProfileSchema = z.object({
     username: z.string().min(1),
     name: z.string().min(1),
+    displayUsername: z.string(),
     email: z.email(),
     image: z.string().optional()
 })
@@ -200,7 +201,12 @@ export async function updateProfile(_: any, formData: FormData) {
             }
         }
         await auth.api.updateUser({
-            body: { name: data.name, image: data.image, username: data.username },
+            body: {
+                name: data.name,
+                image: data.image,
+                username: data.username,
+                displayUsername: data.displayUsername
+            },
             headers: await headers()
         })
         if (data.email !== old?.email) {

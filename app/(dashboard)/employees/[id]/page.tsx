@@ -1,6 +1,7 @@
 import { IconPencilBox } from '@intentui/icons'
 import Image from 'next/image'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { Details } from '@/app/(dashboard)/employees/[id]/details'
 import Bg from '@/app/bg.jpg'
@@ -11,9 +12,14 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { app } from '@/config/app'
 import { fullName, strlimit } from '@/lib/utils'
 import { getEmployeeById } from '@/server/repositories/employees.repository'
+import { getPermissions } from '@/server/services/auth.service'
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
+
+    const permissions = await getPermissions()
+    if (!permissions.admin && !permissions.hr && permissions.currentDepartment?.employeeId !== id)
+        return redirect(`/employees/${permissions.currentDepartment?.employeeId}`)
 
     return (
         <>

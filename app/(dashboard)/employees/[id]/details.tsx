@@ -1,6 +1,7 @@
 'use client'
 
 import type { GetEmployeeByIdResult } from '@/server/repositories/employees.repository'
+import { Berkas } from '@/app/(dashboard)/employees/[id]/berkas'
 import { MaleIcon } from '@/components/app-logo'
 import { Badge, getEmployeeStatus } from '@/components/ui/badge'
 import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@/components/ui/description-list'
@@ -112,18 +113,7 @@ export const Details = ({ employee }: { employee: GetEmployeeByIdResult }) => {
                         </DescriptionList>
                     </TabPanel>
                     <TabPanel id='files'>
-                        <DescriptionList>
-                            <DescriptionTerm>KTP</DescriptionTerm>
-                            <DescriptionDetails>-</DescriptionDetails>
-                            <DescriptionTerm>KK</DescriptionTerm>
-                            <DescriptionDetails>-</DescriptionDetails>
-                            <DescriptionTerm>Akta Kelahiran</DescriptionTerm>
-                            <DescriptionDetails>-</DescriptionDetails>
-                            <DescriptionTerm>BPJS Kesehatan</DescriptionTerm>
-                            <DescriptionDetails>-</DescriptionDetails>
-                            <DescriptionTerm>BPJS Ketenagakerjaan</DescriptionTerm>
-                            <DescriptionDetails>-</DescriptionDetails>
-                        </DescriptionList>
+                        <Berkas employee={employee} />
                     </TabPanel>
                 </TabPanels>
             </Tabs>

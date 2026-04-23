@@ -1,8 +1,12 @@
 import type { TimeValue } from 'react-aria-components'
-import { endOfMonth, getLocalTimeZone, startOfMonth, Time, today } from '@internationalized/date'
+import { endOfMonth, endOfYear, getLocalTimeZone, startOfMonth, Time, today } from '@internationalized/date'
 
 export const getTodayDate = () => {
     return today(getLocalTimeZone())
+}
+
+export const getLastDayOfYear = () => {
+    return endOfYear(today(getLocalTimeZone()))
 }
 
 export const getTomorrowDate = () => {

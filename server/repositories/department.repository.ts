@@ -21,7 +21,7 @@ export const getDepartments = async (props: FilterSchema) => {
             employees: {
                 where: {
                     position: {
-                        contains: 'ka',
+                        contains: 'supervisor',
                         mode: 'insensitive'
                     }
                 },

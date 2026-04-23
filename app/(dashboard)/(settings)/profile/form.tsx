@@ -1,5 +1,6 @@
 'use client'
 
+import type { User } from '@/lib/auth'
 import { IconFloppyDisk } from '@intentui/icons'
 import { useActionState, useEffect } from 'react'
 import { Form } from 'react-aria-components'
@@ -8,14 +9,13 @@ import { FileUpload } from '@/components/file-upload'
 import { Button } from '@/components/ui/button'
 import { FieldError, FieldGroup, Label } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
-import { Skeleton } from '@/components/ui/skeleton'
 import { TextField } from '@/components/ui/text-field'
 import { app } from '@/config/app'
 import { authClient } from '@/lib/auth-client'
 import { updateProfile } from '@/server/services/auth.service'
 
-export default function ProfileUpdateForm() {
-    const { refetch, data, isPending: loading } = authClient.useSession()
+export default function ProfileUpdateForm({ user }: { user: User }) {
+    const { refetch } = authClient.useSession()
     const [{ success, errors }, action, isPending] = useActionState(updateProfile, { errors: {} })
 
     useEffect(() => {
@@ -25,34 +25,28 @@ export default function ProfileUpdateForm() {
         }
     }, [success])
 
-    return loading ? (
-        <div className='grid gap-4 lg:w-1/2'>
-            <Skeleton className='h-5 w-full' />
-            <Skeleton className='h-7.5 w-full' />
-            <Skeleton className='h-5 w-full' />
-            <Skeleton className='h-7.5 w-full' />
-            <Skeleton className='h-7.5 w-full' />
-        </div>
-    ) : (
+    return (
         <Form action={action} className='grid gap-4 lg:grid-cols-[auto_1fr]' validationErrors={errors}>
             <div className='aspect-square'>
-                <FileUpload
-                    defaultValue={data?.user?.image ? `${app.url}/api/blob?url=${data?.user?.image}` : ''}
-                    name='avatar'
-                />
+                <FileUpload defaultValue={user?.image ? `${app.url}/api/blob?url=${user?.image}` : ''} name='avatar' />
             </div>
             <FieldGroup>
-                <TextField defaultValue={data?.user?.name} isRequired name='name'>
+                <TextField defaultValue={user?.name} isRequired name='name'>
                     <Label>Name</Label>
                     <Input placeholder='Full Name' />
                     <FieldError />
                 </TextField>
-                <TextField defaultValue={data?.user?.username ?? ''} isRequired name='username'>
+                <TextField defaultValue={user?.username ?? ''} isRequired name='username'>
                     <Label>Username</Label>
                     <Input placeholder='Username' />
                     <FieldError />
                 </TextField>
-                <TextField defaultValue={data?.user?.email} isRequired name='email' type='email'>
+                <TextField defaultValue={user?.displayUsername ?? ''} isRequired name='displayUsername'>
+                    <Label>Display Username</Label>
+                    <Input placeholder='Display Username' />
+                    <FieldError />
+                </TextField>
+                <TextField defaultValue={user?.email} isRequired name='email' type='email'>
                     <Label>Email</Label>
                     <Input placeholder='email@example.com' />
                     <FieldError />

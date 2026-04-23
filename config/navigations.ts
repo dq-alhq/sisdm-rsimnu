@@ -23,7 +23,7 @@ export const getNavigations = (permissions: GetPermissionResult) => {
             title: 'Data Pegawai',
             href: '/employees',
             icon: IconPeople,
-            show: admin || hr
+            show: true
         },
         {
             title: 'Data Unit',
