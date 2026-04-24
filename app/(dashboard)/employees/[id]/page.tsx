@@ -24,7 +24,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     return (
         <>
             <Heading description='Data lengkap kepegawaian' title='Data Pegawai'>
-                <Link className={buttonStyles()} href={`/employeee/${id}/edit`}>
+                <Link className={buttonStyles()} href={`/employees/${id}/edit`}>
                     <IconPencilBox />
                     Edit
                 </Link>

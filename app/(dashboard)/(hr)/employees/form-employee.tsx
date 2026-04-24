@@ -19,7 +19,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { getLastDayOfYear } from '@/lib/date'
 import { upsertEmployee } from '@/server/services/employee.service'
 
-export const FormEmployee = ({ data }: { data: Employee }) => {
+export const FormEmployee = ({ data }: { data?: Employee }) => {
     const router = useRouter()
 
     const [state, action, pending] = useActionState(upsertEmployee, null)

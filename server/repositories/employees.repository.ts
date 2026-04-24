@@ -142,6 +142,8 @@ export const getEmployeeById = async (id: string) => {
 }
 export type GetEmployeeByIdResult = Awaited<ReturnType<typeof getEmployeeById>>
 
+export const getEmployeeForEdit = async (id: string) => await db.employee.findUnique({ where: { id } })
+
 export const listEmployeesDepartment = async (departmentIds?: string[]) => {
     const data = await db.employee.findMany({
         where: departmentIds
