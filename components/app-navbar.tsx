@@ -11,6 +11,7 @@ import {
     Navbar,
     NavbarGap,
     NavbarItem,
+    NavbarLabel,
     NavbarMobile,
     type NavbarProps,
     NavbarSection,
@@ -50,7 +51,8 @@ export default function AppNavbar(props: NavbarProps & { permissions: GetPermiss
                 <NavbarSection>
                     {userNavigations.map((item) => (
                         <NavbarItem href={item.href} isCurrent={pathname === item.href} key={item.href}>
-                            {item.title}
+                            {item.icon && <item.icon />}
+                            <NavbarLabel>{item.title}</NavbarLabel>
                         </NavbarItem>
                     ))}
                 </NavbarSection>

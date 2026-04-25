@@ -59,3 +59,17 @@ export const listDepartments = async () => {
     })
 }
 export type ListDepartmentsResult = Awaited<ReturnType<typeof listDepartments>>
+
+export const getDepartmentSupervisor = async (id: string) => {
+    return db.employeesOnDepartments.findFirst({
+        where: { departmentId: id, position: 'Supervisor' },
+        orderBy: {
+            assignedAt: 'desc'
+        },
+        include: {
+            employee: true,
+            department: true
+        }
+    })
+}
+export type GetDepartmentSupervisorResult = Awaited<ReturnType<typeof getDepartmentSupervisor>>

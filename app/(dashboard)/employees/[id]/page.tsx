@@ -1,4 +1,4 @@
-import { IconPencilBox } from '@intentui/icons'
+import { IconPencilBox, IconRepeat } from '@intentui/icons'
 import Image from 'next/image'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -24,10 +24,18 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     return (
         <>
             <Heading description='Data lengkap kepegawaian' title='Data Pegawai'>
-                <Link className={buttonStyles()} href={`/employees/${id}/edit`}>
-                    <IconPencilBox />
-                    Edit
-                </Link>
+                <div className='flex items-center gap-2'>
+                    {(permissions.admin || permissions.hr) && (
+                        <Link className={buttonStyles({ intent: 'warning' })} href={`/employees/${id}/mutation`}>
+                            <IconRepeat />
+                            Mutasi
+                        </Link>
+                    )}
+                    <Link className={buttonStyles()} href={`/employees/${id}/edit`}>
+                        <IconPencilBox />
+                        Edit
+                    </Link>
+                </div>
             </Heading>
             <Suspense fallback={<Skeleton className='h-20 w-full' />}>
                 <EmployeePage id={id} />

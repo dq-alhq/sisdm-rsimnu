@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from 
 import { app } from '@/config/app'
 import { authClient } from '@/lib/auth-client'
 import { fullName } from '@/lib/utils'
+import { deleteEmployee } from '@/server/services/employee.service'
 
 export const EmployeesTable = ({ employees }: { employees: GetEmployeesResult['data'] }) => {
     const { data: session } = authClient.useSession()
@@ -63,12 +64,19 @@ export const EmployeesTable = ({ employees }: { employees: GetEmployeesResult['d
                                     <MenuSeparator />
                                     <MenuItem
                                         intent='danger'
-                                        isDisabled={!session?.user.id || session?.user.id === employee.user.id}
+                                        isDisabled={session?.user.id === employee.user.id}
                                         onAction={() =>
                                             toast.error('Yakin ingin menghapus data ini?', {
                                                 action: {
                                                     label: 'Delete',
-                                                    onClick: () => console.log(employee.id)
+                                                    onClick: async () =>
+                                                        await deleteEmployee(employee.id).then((res) => {
+                                                            if (res.success) {
+                                                                toast.success(res.message)
+                                                            } else {
+                                                                toast.error(res.error)
+                                                            }
+                                                        })
                                                 },
                                                 cancel: {
                                                     label: 'Cancel',

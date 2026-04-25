@@ -50,3 +50,73 @@ export const upsertDocument = async (props: z.infer<typeof documentSchema>) => {
         return { success: false, error: error.message }
     }
 }
+
+export const deleteDocument = async (id: string) => {
+    const document = await db.employeeDocument.findUnique({
+        where: { id }
+    })
+    if (!document) {
+        return { success: false, error: 'Document not found' }
+    }
+    try {
+        if (document.documentUrl) {
+            const res = await fetch(`${app.url}/api/blob`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url: document.documentUrl })
+            })
+
+            if (!res.ok) {
+                throw new Error(`Failed to delete blob: ${document.documentUrl}`)
+            }
+        }
+        await db.employeeDocument.delete({ where: { id } })
+        return {
+            success: true,
+            message: 'Document deleted'
+        }
+    } catch (error: any) {
+        return { success: false, error: error.message }
+    }
+}
+
+export const deleteDocumentByEmployeeId = async (employeeId: string) => {
+    try {
+        const documents = await db.employeeDocument.findMany({
+            where: { employeeId }
+        })
+        if (documents.length === 0) {
+            return {
+                success: true,
+                message: 'No documents to delete'
+            }
+        }
+
+        await Promise.all(
+            documents.map(async (document) => {
+                if (document?.documentUrl) {
+                    const res = await fetch(`${app.url}/api/blob`, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ url: document.documentUrl })
+                    })
+
+                    if (!res.ok) {
+                        throw new Error(`Failed to delete blob: ${document.documentUrl}`)
+                    }
+                }
+            })
+        )
+
+        await db.employeeDocument.deleteMany({
+            where: { employeeId }
+        })
+
+        return {
+            success: true,
+            message: 'Documents deleted'
+        }
+    } catch (error: any) {
+        return { success: false, error: error.message }
+    }
+}

@@ -3,6 +3,7 @@ import {
     IconBookmarkOff,
     IconBriefcase2,
     IconCalendarClock,
+    IconCalendarDaysFill,
     IconCirclePerson,
     IconFolderBox,
     IconGrid4,
@@ -70,6 +71,12 @@ export const getNavigations = (permissions: GetPermissionResult) => {
         {
             title: 'Jadwal',
             href: '/jadwal',
+            icon: IconCalendarDaysFill,
+            show: true
+        },
+        {
+            title: 'Rekap Absensi',
+            href: '/rekap-absensi',
             icon: IconCalendarClock,
             show: true
         }

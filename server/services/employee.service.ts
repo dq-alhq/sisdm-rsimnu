@@ -2,10 +2,12 @@
 
 import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
+import { app } from '@/config/app'
 import { EmployeeStatus, Gender } from '@/generated/enums'
 import { auth } from '@/lib/auth'
 import db from '@/lib/db'
 import z, { parseFormData } from '@/lib/zod'
+import { deleteDocumentByEmployeeId } from '@/server/services/document.service'
 
 const employeeSchema = z.object({
     id: z.string().min(8, 'NIP Wajib 8 angka'),
@@ -80,6 +82,42 @@ export const upsertEmployee = async (_: any, formData: FormData) => {
         return {
             success: true,
             message: 'Pegawai berhasil disimpan'
+        }
+    } catch (e: any) {
+        return {
+            success: false,
+            error: e.message
+        }
+    }
+}
+
+export const deleteEmployee = async (id: string) => {
+    const employee = await db.employee.findUnique({ where: { id: id } })
+    if (!employee) {
+        return {
+            success: false,
+            error: 'Pegawai tidak ditemukan'
+        }
+    }
+
+    try {
+        const employeeAccount = await db.user.findUnique({ where: { id: employee.userId } })
+        if (employeeAccount) {
+            if (employeeAccount?.image) {
+                await fetch(`${app.url}/api/blob`, {
+                    method: 'DELETE',
+                    body: JSON.stringify({ url: employeeAccount.image, method: 'DELETE' })
+                })
+            }
+        }
+
+        await db.user.delete({ where: { id: employee.userId } })
+        await deleteDocumentByEmployeeId(id)
+
+        revalidatePath('/employees')
+        return {
+            success: true,
+            message: 'Pegawai berhasil dihapus'
         }
     } catch (e: any) {
         return {

@@ -26,7 +26,6 @@ export function ButtonGroup({
             className={buttonGroupStyles({ orientation, className })}
             data-orientation={orientation}
             data-slot='button-group'
-            role='group'
             {...props}
         />
     )

@@ -24,8 +24,8 @@ export const FilterRangeDate = () => {
     }, 300)
 
     const value = {
-        start: searchParams.get('start') ? parseDate(searchParams.get('start') || '') : get26thDayOfMonth(),
-        end: searchParams.get('end') ? parseDate(searchParams.get('end') || '') : get25thDayOfNextMonth()
+        start: searchParams.get('start') ? parseDate(String(searchParams.get('start'))) : get26thDayOfMonth(),
+        end: searchParams.get('end') ? parseDate(String(searchParams.get('end'))) : get25thDayOfNextMonth()
     }
 
     return (

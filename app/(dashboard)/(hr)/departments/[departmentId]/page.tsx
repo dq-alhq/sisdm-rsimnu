@@ -1,10 +1,22 @@
+import { IconArrowLeft } from '@intentui/icons'
+import Link from 'next/link'
 import { Suspense } from 'react'
-import { EmployeesDepartmentTable } from '@/app/(dashboard)/[departmentId]/table'
+import { EmployeesDepartmentTable } from '@/app/(dashboard)/(hr)/departments/[departmentId]/table'
 import Heading from '@/components/heading'
 import { Paginator } from '@/components/paginator'
 import { Search } from '@/components/search'
+import { buttonStyles } from '@/components/ui/button-style'
 import { Skeleton } from '@/components/ui/skeleton'
+import { getDepartmentById } from '@/server/repositories/department.repository'
 import { getEmployeesDepartment } from '@/server/repositories/employees.repository'
+
+export const generateMetadata = async ({ params }: { params: Promise<{ departmentId: string }> }) => {
+    const { departmentId } = await params
+    const department = await getDepartmentById(departmentId)
+    return {
+        title: department?.name || 'Unit'
+    }
+}
 
 export default async function Page({
     params,
@@ -22,7 +34,12 @@ export default async function Page({
 
     return (
         <>
-            <Heading description='List semua pegawai di Unit ini' title='Staf Unit' />
+            <Heading description='List semua pegawai di Unit ini' title='Staf Unit'>
+                <Link className={buttonStyles({ intent: 'outline' })} href='/departments'>
+                    <IconArrowLeft />
+                    Kembali
+                </Link>
+            </Heading>
             <div>
                 <Search />
             </div>
