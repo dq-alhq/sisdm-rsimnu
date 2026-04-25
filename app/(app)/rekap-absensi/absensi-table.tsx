@@ -2,11 +2,13 @@
 import type { AbsensiData } from '@/server/repositories/absensi.repository'
 import { IconEye } from '@intentui/icons'
 import { useMemo } from 'react'
+import { ExcelIcon } from '@/components/app-logo'
+import Heading from '@/components/heading'
 import { MonthNavigation } from '@/components/month-navigation'
-import { Autocomplete } from '@/components/ui/autocomplete'
 import { Button } from '@/components/ui/button'
 import { Disclosure, DisclosurePanel } from '@/components/ui/disclosure-group'
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@/components/ui/table'
+import { exportAbsensi } from '@/lib/export-absensi'
 import { fullName } from '@/lib/utils'
 
 export const AbsensiEmployeeTable = ({ data }: { data: AbsensiData }) => {
@@ -71,8 +73,18 @@ export const AbsensiEmployeeTable = ({ data }: { data: AbsensiData }) => {
         }))
     }, [data])
 
+    const handleExport = () => {
+        exportAbsensi(data)
+    }
+
     return (
-        <Autocomplete>
+        <>
+            <Heading description='Menampilkan rekap absensi pegawai' title='Rekap Absensi'>
+                <Button onPress={handleExport}>
+                    <ExcelIcon />
+                    Export
+                </Button>
+            </Heading>
             <MonthNavigation />
 
             <Table>
@@ -151,6 +163,6 @@ export const AbsensiEmployeeTable = ({ data }: { data: AbsensiData }) => {
                     </Table>
                 </DisclosurePanel>
             </Disclosure>
-        </Autocomplete>
+        </>
     )
 }

@@ -17,7 +17,6 @@ export const Details = ({ employee }: { employee: GetEmployeeByIdResult }) => {
                     <Tab id='personal'>Personal</Tab>
                     <Tab id='employee'>Kepegawaian</Tab>
                     <Tab id='legal'>Legal</Tab>
-                    <Tab id='schedule'>Jadwal</Tab>
                     <Tab id='files'>Berkas</Tab>
                 </TabList>
                 <TabPanels className='min-h-100'>
@@ -74,16 +73,22 @@ export const Details = ({ employee }: { employee: GetEmployeeByIdResult }) => {
                             <DescriptionDetails>
                                 {employee.departments?.find((d) => !d.endAt)?.position}
                             </DescriptionDetails>
-                            <DescriptionTerm>BPJS Kesehatan</DescriptionTerm>
-                            <DescriptionDetails>{employee.bpjsKes}</DescriptionDetails>
-                            <DescriptionTerm>BPJS Ketenagakerjaan</DescriptionTerm>
-                            <DescriptionDetails>{employee.bpjsTk}</DescriptionDetails>
+                            <DescriptionTerm>Jenis Shift</DescriptionTerm>
+                            <DescriptionDetails>{employee.departments.find((d) => !d.endAt)?.shift}</DescriptionDetails>
+                            <DescriptionTerm>Grup Shift</DescriptionTerm>
+                            <DescriptionDetails>{employee.group ?? '-'}</DescriptionDetails>
+                            <DescriptionTerm>PIN Fingerprint</DescriptionTerm>
+                            <DescriptionDetails>{employee.fingerprint}</DescriptionDetails>
                             <DescriptionTerm>Kuota Cuti</DescriptionTerm>
                             <DescriptionDetails>{employee.leaveQuota}</DescriptionDetails>
                         </DescriptionList>
                     </TabPanel>
                     <TabPanel id='legal'>
                         <DescriptionList>
+                            <DescriptionTerm>BPJS Kesehatan</DescriptionTerm>
+                            <DescriptionDetails>{employee.bpjsKes}</DescriptionDetails>
+                            <DescriptionTerm>BPJS Ketenagakerjaan</DescriptionTerm>
+                            <DescriptionDetails>{employee.bpjsTk}</DescriptionDetails>
                             <DescriptionTerm>NPWP</DescriptionTerm>
                             <DescriptionDetails>{employee.npwp}</DescriptionDetails>
                             <DescriptionTerm>STR</DescriptionTerm>
@@ -100,16 +105,6 @@ export const Details = ({ employee }: { employee: GetEmployeeByIdResult }) => {
                             <DescriptionDetails>
                                 {employee.sipEnd && formatDate(String(employee.sipEnd))}
                             </DescriptionDetails>
-                        </DescriptionList>
-                    </TabPanel>
-                    <TabPanel id='schedule'>
-                        <DescriptionList>
-                            <DescriptionTerm>Jenis Shift</DescriptionTerm>
-                            <DescriptionDetails>{employee.departments.find((d) => !d.endAt)?.shift}</DescriptionDetails>
-                            <DescriptionTerm>Grup Shift</DescriptionTerm>
-                            <DescriptionDetails>{employee.group ?? '-'}</DescriptionDetails>
-                            <DescriptionTerm>PIN Fingerprint</DescriptionTerm>
-                            <DescriptionDetails>{employee.fingerprint}</DescriptionDetails>
                         </DescriptionList>
                     </TabPanel>
                     <TabPanel id='files'>

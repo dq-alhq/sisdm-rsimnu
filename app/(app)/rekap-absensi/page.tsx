@@ -1,9 +1,6 @@
-import Link from 'next/link'
 import { Suspense } from 'react'
 import { AbsensiEmployeeTable } from '@/app/(app)/rekap-absensi/absensi-table'
-import Heading from '@/components/heading'
 import { Autocomplete } from '@/components/ui/autocomplete'
-import { buttonStyles } from '@/components/ui/button-style'
 import { Skeleton } from '@/components/ui/skeleton'
 import { get25thDayOfNextMonth, get26thDayOfMonth } from '@/lib/date'
 import { getAbsensi } from '@/server/repositories/absensi.repository'
@@ -24,11 +21,6 @@ export default async function Absensi(props: Props) {
     const endDate = searchParams.end || get25thDayOfNextMonth().toString()
     return (
         <div className='space-y-4'>
-            <Heading description='Menampilkan rekap absensi pegawai' title='Rekap Absensi'>
-                <Link className={buttonStyles()} href='/absensi/export'>
-                    Export
-                </Link>
-            </Heading>
             <Autocomplete>
                 <Suspense fallback={<Skeleton className='m-2 h-7 w-full' />}>
                     <AbsensiTable end={endDate} start={startDate} />

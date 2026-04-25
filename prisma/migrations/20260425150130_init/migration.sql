@@ -183,9 +183,8 @@ CREATE TABLE "leave" (
 CREATE TABLE "employee_document" (
     "id" TEXT NOT NULL,
     "employeeId" TEXT NOT NULL,
-    "documentType" TEXT NOT NULL,
-    "documentName" TEXT NOT NULL,
-    "documentUrl" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "url" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -214,7 +213,7 @@ CREATE UNIQUE INDEX "employee_userId_key" ON "employee"("userId");
 CREATE UNIQUE INDEX "shift_pattern_A_B_C_D_date_key" ON "shift_pattern"("A", "B", "C", "D", "date");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "employee_document_employeeId_documentType_key" ON "employee_document"("employeeId", "documentType");
+CREATE UNIQUE INDEX "employee_document_employeeId_name_key" ON "employee_document"("employeeId", "name");
 
 -- AddForeignKey
 ALTER TABLE "session" ADD CONSTRAINT "session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;

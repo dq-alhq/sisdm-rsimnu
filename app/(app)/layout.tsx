@@ -18,7 +18,7 @@ export default async function layout({
     return (
         <NavbarProvider>
             <AppNavbar intent='float' permissions={permissions} />
-            <Container className='flex flex-col gap-4 py-4 md:gap-6 md:py-6'>{children}</Container>
+            <Container className='flex w-full flex-col gap-4 py-4 md:gap-6 md:py-6'>{children}</Container>
         </NavbarProvider>
     )
 }

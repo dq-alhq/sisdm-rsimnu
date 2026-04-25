@@ -131,6 +131,7 @@ const Carousel = ({
                 canScrollNext
             }}
         >
+            {/** biome-ignore lint/a11y/useSemanticElements: noproblem*/}
             <div
                 aria-roledescription='carousel'
                 className={twMerge('relative', className)}

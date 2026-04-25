@@ -5,15 +5,17 @@ import type { ListEmployeesDepartmentResult } from '@/server/repositories/employ
 import type { GetPermissionResult } from '@/server/services/auth.service'
 import { IconEye } from '@intentui/icons'
 import { useMemo } from 'react'
+import { ExcelIcon } from '@/components/app-logo'
 import { FilterPegawai } from '@/components/filter-pegawai'
-import { FilterRangeDate } from '@/components/filter-range-date'
 import { FilterUnit } from '@/components/filter-unit'
+import { MonthNavigation } from '@/components/month-navigation'
 import { Autocomplete } from '@/components/ui/autocomplete'
 import { Button } from '@/components/ui/button'
 import { Disclosure, DisclosurePanel } from '@/components/ui/disclosure-group'
 import { Label } from '@/components/ui/field'
 import { SearchField, SearchInput } from '@/components/ui/search-field'
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@/components/ui/table'
+import { exportAbsensi } from '@/lib/export-absensi'
 import { fullName } from '@/lib/utils'
 import { EditAbsensi } from './edit-absensi'
 
@@ -86,8 +88,13 @@ export const AbsensiTable = ({ absensiData, departments, employees, permissions 
         }))
     }, [absensiData])
 
+    const handleExport = () => {
+        exportAbsensi(absensiData)
+    }
+
     return (
         <Autocomplete>
+            <MonthNavigation />
             <div className='grid grid-cols-1 items-start gap-4 lg:grid-cols-4'>
                 <SearchField>
                     <Label>Cari</Label>
@@ -105,7 +112,10 @@ export const AbsensiTable = ({ absensiData, departments, employees, permissions 
                         />
                     </>
                 )}
-                <FilterRangeDate />
+                <Button className='h-full' onPress={handleExport}>
+                    <ExcelIcon />
+                    Export
+                </Button>
             </div>
             <Table>
                 <TableHeader>

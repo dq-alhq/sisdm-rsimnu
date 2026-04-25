@@ -64,7 +64,7 @@ export const MonthNavigation = () => {
         end: searchParams.get('end') ? parseDate(String(searchParams.get('end'))) : get25thDayOfNextMonth()
     }
     return (
-        <div className='flex flex-col items-end gap-2 sm:flex-row'>
+        <div className='flex flex-col items-end gap-4 sm:flex-row'>
             <DateRangePicker
                 onChange={handleQuery}
                 validate={(values) => {

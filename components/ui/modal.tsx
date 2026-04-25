@@ -59,7 +59,7 @@ const ModalContent = ({
     return (
         <ModalOverlay
             className={cx(
-                'fixed start-0 top-0 z-50 h-(--visual-viewport-height,100vh) w-screen',
+                'fixed inset-s-0 top-0 z-50 h-(--visual-viewport-height,100vh) w-screen',
                 'bg-bg/15 backdrop-blur-[1px] motion-reduce:backdrop-blur-none',
                 'grid grid-rows-[1fr_auto] justify-items-center sm:grid-rows-[1fr_auto_3fr]',
                 'entering:fade-in entering:animate-in entering:duration-300 entering:ease-out',

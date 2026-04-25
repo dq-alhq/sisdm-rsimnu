@@ -1,18 +1,19 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import { app } from '@/config/app'
 import db from '@/lib/db'
 import z from '@/lib/zod'
 
 const documentSchema = z.object({
     employeeId: z.string(),
-    documentType: z.string(),
-    documentUrl: z.string(),
-    documentName: z.string()
+    name: z.string().min(1),
+    file: z.file(),
+    url: z.string()
 })
 
-export const upsertDocument = async (props: z.infer<typeof documentSchema>) => {
-    const { data, success, error } = await documentSchema.safeParseAsync(props)
+export const upsertDocument = async (_: any, formData: FormData) => {
+    const { data, success, error } = documentSchema.safeParse(Object.fromEntries(formData))
     if (!success) {
         return { success: false, error: z.flattenError(error).fieldErrors }
     }
@@ -20,31 +21,49 @@ export const upsertDocument = async (props: z.infer<typeof documentSchema>) => {
     try {
         const old = await db.employeeDocument.findUnique({
             where: {
-                employeeId_documentType: {
+                employeeId_name: {
                     employeeId: data.employeeId,
-                    documentType: data.documentType
+                    name: data.name
                 }
             }
         })
-        if (old && old.documentUrl !== data.documentUrl) {
+        if (old && old.url !== data.url) {
             await fetch(`${app.url}/api/blob`, {
                 method: 'DELETE',
-                body: JSON.stringify({ url: old.documentUrl, method: 'DELETE' })
+                body: JSON.stringify({ url: old.url, method: 'DELETE' })
             })
         }
+
+        if (data.file) {
+            const fileData = new FormData()
+            fileData.append('file', data?.file)
+            const res = await fetch(`${app.url}/api/blob`, {
+                method: 'POST',
+                body: fileData
+            })
+            if (!res.ok) throw new Error('File gagal diupload')
+            const uploaded = await res.json()
+            data.url = uploaded.url
+        }
+
         await db.employeeDocument.upsert({
             where: {
-                employeeId_documentType: {
+                employeeId_name: {
                     employeeId: data.employeeId,
-                    documentType: data.documentType
+                    name: data.name
                 }
             },
             update: {
-                documentUrl: data.documentUrl,
-                documentName: data.documentName
+                url: data.url,
+                name: data.name
             },
-            create: data
+            create: {
+                name: data.name,
+                employeeId: data.employeeId,
+                url: data.url!
+            }
         })
+        revalidatePath(`/employees/${data.employeeId}`)
         return { success: true, message: 'File berhasil diupdate' }
     } catch (error: any) {
         return { success: false, error: error.message }
@@ -59,15 +78,15 @@ export const deleteDocument = async (id: string) => {
         return { success: false, error: 'Document not found' }
     }
     try {
-        if (document.documentUrl) {
+        if (document.url) {
             const res = await fetch(`${app.url}/api/blob`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ url: document.documentUrl })
+                body: JSON.stringify({ url: document.url })
             })
 
             if (!res.ok) {
-                throw new Error(`Failed to delete blob: ${document.documentUrl}`)
+                throw new Error(`Failed to delete blob: ${document.url}`)
             }
         }
         await db.employeeDocument.delete({ where: { id } })
@@ -94,15 +113,15 @@ export const deleteDocumentByEmployeeId = async (employeeId: string) => {
 
         await Promise.all(
             documents.map(async (document) => {
-                if (document?.documentUrl) {
+                if (document?.url) {
                     const res = await fetch(`${app.url}/api/blob`, {
                         method: 'DELETE',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ url: document.documentUrl })
+                        body: JSON.stringify({ url: document.url })
                     })
 
                     if (!res.ok) {
-                        throw new Error(`Failed to delete blob: ${document.documentUrl}`)
+                        throw new Error(`Failed to delete blob: ${document.url}`)
                     }
                 }
             })

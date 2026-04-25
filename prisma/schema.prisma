@@ -253,13 +253,12 @@ model EmployeeDocument {
   employeeId String
   employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
-  documentType String
-  documentName String
-  documentUrl  String
+  name String
+  url  String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([employeeId, documentType])
+  @@unique([employeeId, name])
   @@map("employee_document")
 }

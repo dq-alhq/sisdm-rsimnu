@@ -16,13 +16,15 @@ interface Props {
     defaultValue: string | string[]
     onChange?: (value: Key | null | Key[]) => void
     value?: string | string[]
+    isDisabled?: boolean
 }
 
-export function SearchableSelect({ name, defaultValue, items, label, onChange, value }: Props) {
+export function SearchableSelect({ name, defaultValue, items, label, onChange, value, isDisabled }: Props) {
     return (
         <Select
             aria-label={label ?? 'Select'}
             defaultValue={defaultValue}
+            isDisabled={isDisabled}
             name={name}
             onChange={onChange}
             selectionMode={Array.isArray(defaultValue) ? 'multiple' : 'single'}

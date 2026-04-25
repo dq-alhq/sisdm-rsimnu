@@ -1,13 +1,13 @@
 import type { Metadata } from 'next'
-import { Basic, JetBrains_Mono } from 'next/font/google'
+import { JetBrains_Mono, Quicksand } from 'next/font/google'
 import './globals.css'
 import type { PropsWithChildren } from 'react'
 import { Providers } from '@/components/providers'
 import { app } from '@/config/app'
 
-const fontSans = Basic({
+const fontSans = Quicksand({
     variable: '--font-sans',
-    weight: '400',
+    weight: '500',
     subsets: ['latin']
 })
 

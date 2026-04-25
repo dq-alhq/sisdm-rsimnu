@@ -710,7 +710,7 @@ const SidebarNav = ({ isSticky = false, className, ...props }: SidebarNavProps) 
     return (
         <nav
             className={twMerge(
-                'isolate flex items-center justify-between gap-x-2 px-(--container-padding,--spacing(4)) py-2.5 text-navbar-fg sm:justify-start sm:px-(--gutter,--spacing(4)) md:w-full',
+                'isolate flex w-full items-center justify-between gap-x-2 px-(--container-padding,--spacing(4)) py-2.5 text-navbar-fg sm:justify-start sm:px-(--gutter,--spacing(4))',
                 isSticky && 'static top-0 z-40 group-has-data-[intent=default]/sidebar-root:sticky',
                 className
             )}
