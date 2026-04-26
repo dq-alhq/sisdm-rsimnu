@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { cache } from 'react'
 import { app } from '@/config/app'
 import { auth } from '@/lib/auth'
 import db from '@/lib/db'
@@ -231,7 +232,7 @@ export const getUserById = async (id: string) => {
     return db.user.findUnique({ where: { id } })
 }
 
-export const getPermissions = async () => {
+const getPermissionsImpl = async () => {
     const session = await auth.api.getSession({ headers: await headers() })
     const user = session?.user
     const departments = await db.employeesOnDepartments.findMany({
@@ -276,6 +277,7 @@ export const getPermissions = async () => {
         currentDepartment
     }
 }
+export const getPermissions = cache(getPermissionsImpl)
 export type GetPermissionResult = Awaited<ReturnType<typeof getPermissions>>
 
 export const getEmployeeByUserId = async () => {

@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { Link as LinkPrimitive, type LinkProps as LinkPrimitiveProps } from 'react-aria-components/Link'
 import { cx } from '@/lib/primitive'
 
@@ -8,6 +9,14 @@ export interface LinkProps extends LinkPrimitiveProps {
 }
 
 export function Link({ className, ref, ...props }: LinkProps) {
+    const router = useRouter()
+
+    const shouldPrefetch =
+        typeof props.href === 'string' &&
+        props.href.startsWith('/') &&
+        !props.href.startsWith('//') &&
+        !props.href.startsWith('/api')
+
     return (
         <LinkPrimitive
             className={cx(
@@ -19,6 +28,11 @@ export function Link({ className, ref, ...props }: LinkProps) {
                 ],
                 className
             )}
+            onHoverStart={() => {
+                if (shouldPrefetch) {
+                    router.prefetch(props.href!)
+                }
+            }}
             ref={ref}
             {...props}
         />
