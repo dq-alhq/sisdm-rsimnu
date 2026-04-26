@@ -6,9 +6,7 @@ import { useIsMobile } from '@/hooks/use-mobile'
 
 const navs = [
     { url: '/profile', label: 'Profil' },
-    { url: '/security', label: 'Password' },
-    { url: '/kepegawaian', label: 'Kepegawaian' },
-    { url: '/berkas', label: 'Berkas' }
+    { url: '/security', label: 'Password' }
 ]
 
 export function SettingNav() {

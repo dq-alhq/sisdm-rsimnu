@@ -1,12 +1,21 @@
 'use client'
 
 import type { GetEmployeeByIdResult } from '@/server/repositories/employees.repository'
+import { IconPencilBox } from '@intentui/icons'
+import { Form } from 'react-aria-components'
+import { toast } from 'sonner'
 import { Berkas } from '@/app/(dashboard)/employees/[id]/berkas'
 import { MaleIcon } from '@/components/app-logo'
 import { Badge, getEmployeeStatus } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { DescriptionDetails, DescriptionList, DescriptionTerm } from '@/components/ui/description-list'
+import { Dialog } from '@/components/ui/dialog'
+import { Label } from '@/components/ui/field'
+import { Popover, PopoverContent } from '@/components/ui/popover'
+import { Radio, RadioGroup } from '@/components/ui/radio'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@/components/ui/tabs'
 import { formatDate, fullName } from '@/lib/utils'
+import { changeEmployeeShiftGroup } from '@/server/services/shift.service'
 
 export const Details = ({ employee }: { employee: GetEmployeeByIdResult }) => {
     if (!employee) return null
@@ -76,7 +85,52 @@ export const Details = ({ employee }: { employee: GetEmployeeByIdResult }) => {
                             <DescriptionTerm>Jenis Shift</DescriptionTerm>
                             <DescriptionDetails>{employee.departments.find((d) => !d.endAt)?.shift}</DescriptionDetails>
                             <DescriptionTerm>Grup Shift</DescriptionTerm>
-                            <DescriptionDetails>{employee.group ?? '-'}</DescriptionDetails>
+                            <DescriptionDetails>
+                                <div className='flex items-center gap-2 capitalize'>
+                                    <Badge>{employee.group ?? '-'}</Badge>
+                                    <Popover>
+                                        <Button className='m-0' intent='outline' size='sq-xxs'>
+                                            <IconPencilBox />
+                                        </Button>
+                                        <PopoverContent>
+                                            <Dialog>
+                                                <Form
+                                                    action={async (formData) => {
+                                                        const group = formData.get('group')
+                                                        const res = await changeEmployeeShiftGroup(
+                                                            employee.id,
+                                                            String(group)
+                                                        )
+                                                        if (!res.success) {
+                                                            toast.error('Gagal mengubah grup shift')
+                                                        } else {
+                                                            toast.success(res.message)
+                                                        }
+                                                    }}
+                                                    className='p-4'
+                                                >
+                                                    <RadioGroup
+                                                        defaultValue={employee.group}
+                                                        name='group'
+                                                        orientation='horizontal'
+                                                    >
+                                                        <Label>Ubah Grup</Label>
+                                                        <div className='flex items-center gap-4'>
+                                                            <Radio value='A'>A</Radio>
+                                                            <Radio value='B'>B</Radio>
+                                                            <Radio value='C'>C</Radio>
+                                                            <Radio value='D'>D</Radio>
+                                                        </div>
+                                                    </RadioGroup>
+                                                    <Button className='mt-2' size='sm' slot='close' type='submit'>
+                                                        Simpan
+                                                    </Button>
+                                                </Form>
+                                            </Dialog>
+                                        </PopoverContent>
+                                    </Popover>
+                                </div>
+                            </DescriptionDetails>
                             <DescriptionTerm>PIN Fingerprint</DescriptionTerm>
                             <DescriptionDetails>{employee.fingerprint}</DescriptionDetails>
                             <DescriptionTerm>Kuota Cuti</DescriptionTerm>

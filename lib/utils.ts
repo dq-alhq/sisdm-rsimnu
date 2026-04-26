@@ -69,3 +69,18 @@ export const getDate = (date: string | number): string => {
 
     return `${year}-${month}-${date}`
 }
+
+export const getEmployeeStatus = (status: string) => {
+    switch (status) {
+        case 'active':
+            return 'Tetap'
+        case 'inactive':
+            return 'Tidak Aktif'
+        case 'probation':
+            return 'Tidak Tetap'
+        case 'resigned':
+            return 'Resign'
+        default:
+            return ''
+    }
+}

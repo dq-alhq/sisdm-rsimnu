@@ -1,5 +1,6 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import db from '@/lib/db'
 import z from '@/lib/zod'
 
@@ -32,6 +33,23 @@ export const createShift = async (data: z.infer<typeof shiftSchema>) => {
             }
         })
         return { success: true, message: 'Shift berhasil disimpan' }
+    } catch (error: any) {
+        return { success: false, error: error.message }
+    }
+}
+
+export const changeEmployeeShiftGroup = async (employeeId: string, group: string) => {
+    try {
+        await db.employee.update({
+            where: {
+                id: employeeId
+            },
+            data: {
+                group
+            }
+        })
+        revalidatePath(`/employees/${employeeId}`)
+        return { success: true, message: 'Grup shift berhasil diubah' }
     } catch (error: any) {
         return { success: false, error: error.message }
     }
