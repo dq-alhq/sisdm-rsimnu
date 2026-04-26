@@ -122,6 +122,7 @@ export const createAttendances = async (attendances: z.infer<typeof attendancesS
     }
 
     try {
+        // 🔹 ambil shift setting
         const shiftSettings = await db.shiftSetting.findMany({
             select: {
                 name: true,
@@ -129,12 +130,15 @@ export const createAttendances = async (attendances: z.infer<typeof attendancesS
                 checkOutAt: true
             }
         })
+
         const shiftByName = new Map(
             shiftSettings.map((shift) => [
                 normalizeShiftName(shift.name),
                 formatShiftCodeLabel(shift.name, shift.checkInAt, shift.checkOutAt)
             ])
         )
+
+        // 🔹 normalisasi shift
         const normalizedAttendances = parsed.data.map((attendance) => {
             if (hasShiftTimeRange(attendance.shiftCode)) return attendance
 
@@ -147,55 +151,71 @@ export const createAttendances = async (attendances: z.infer<typeof attendancesS
             }
         })
 
+        // 🔥 1. Ambil existing SEKALI
+        const existing = await db.schedule.findMany({
+            where: {
+                OR: normalizedAttendances.map((a) => ({
+                    employeeId: a.employeeId,
+                    date: a.date
+                }))
+            },
+            select: {
+                employeeId: true,
+                date: true
+            }
+        })
+
+        const existingSet = new Set(existing.map((e) => `${e.employeeId}_${e.date}`))
+
+        // 🔥 2. Split insert vs update
+        const inserts: typeof normalizedAttendances = []
+        const updates: typeof normalizedAttendances = []
+
+        for (const a of normalizedAttendances) {
+            const key = `${a.employeeId}_${a.date}`
+
+            if (existingSet.has(key)) {
+                updates.push(a)
+            } else {
+                inserts.push(a)
+            }
+        }
+
+        // 🔥 3. INSERT (super cepat)
+        if (inserts.length > 0) {
+            await db.schedule.createMany({
+                data: inserts,
+                skipDuplicates: true
+            })
+        }
+
+        // 🔥 4. UPDATE (batch + paralel)
         const chunkSize = 50
 
-        for (let i = 0; i < normalizedAttendances.length; i += chunkSize) {
-            const chunk = normalizedAttendances.slice(i, i + chunkSize)
+        for (let i = 0; i < updates.length; i += chunkSize) {
+            const chunk = updates.slice(i, i + chunkSize)
 
-            await db.$transaction(
-                chunk.map((attendance) =>
-                    db.schedule.upsert({
+            await Promise.all(
+                chunk.map((a) =>
+                    db.schedule.update({
                         where: {
                             employeeId_date: {
-                                employeeId: attendance.employeeId,
-                                date: attendance.date
+                                employeeId: a.employeeId,
+                                date: a.date
                             }
                         },
-                        update: {
-                            shiftCode: attendance.shiftCode,
-                            checkInAt: attendance.checkInAt,
-                            checkOutAt: attendance.checkOutAt,
-                            late: attendance.late,
-                            earlyDeparture: attendance.earlyDeparture,
-                            totalWorkHours: attendance.totalWorkHours
-                        },
-                        create: attendance
+                        data: {
+                            shiftCode: a.shiftCode,
+                            checkInAt: a.checkInAt,
+                            checkOutAt: a.checkOutAt,
+                            late: a.late,
+                            earlyDeparture: a.earlyDeparture,
+                            totalWorkHours: a.totalWorkHours
+                        }
                     })
                 )
             )
         }
-        //
-        // await db.$transaction(
-        //     normalizedAttendances.map((attendance) =>
-        //         db.schedule.upsert({
-        //             where: {
-        //                 employeeId_date: {
-        //                     employeeId: attendance.employeeId,
-        //                     date: attendance.date
-        //                 }
-        //             },
-        //             update: {
-        //                 shiftCode: attendance.shiftCode,
-        //                 checkInAt: attendance.checkInAt,
-        //                 checkOutAt: attendance.checkOutAt,
-        //                 late: attendance.late,
-        //                 earlyDeparture: attendance.earlyDeparture,
-        //                 totalWorkHours: attendance.totalWorkHours
-        //             },
-        //             create: attendance
-        //         })
-        //     )
-        // )
 
         revalidatePath('/jadwal')
         revalidatePath('/import-absensi')
@@ -211,7 +231,6 @@ export const createAttendances = async (attendances: z.infer<typeof attendancesS
         }
     }
 }
-
 const updateAttendanceSchema = z.object({
     employeeId: z.string(),
     date: z.string(),
