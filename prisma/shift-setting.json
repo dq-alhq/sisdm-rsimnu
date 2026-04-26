@@ -18,6 +18,12 @@
         "checkOutAt": "07:00"
     },
     {
+        "name": "PELAYANAN",
+        "shiftCode": "D",
+        "checkInAt": "10:00",
+        "checkOutAt": "17:00"
+    },
+    {
         "name": "KANTOR",
         "shiftCode": "P",
         "checkInAt": "08:00",

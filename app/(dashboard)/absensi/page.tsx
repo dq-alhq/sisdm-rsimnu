@@ -6,7 +6,7 @@ import Heading from '@/components/heading'
 import { ButtonGroup } from '@/components/ui/button-group'
 import { buttonStyles } from '@/components/ui/button-style'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getDate } from '@/lib/utils'
+import { get25thDayOfNextMonth, get26thDayOfMonth } from '@/lib/date'
 import { getAbsensi } from '@/server/repositories/absensi.repository'
 import { listDepartments } from '@/server/repositories/department.repository'
 import { listEmployeesDepartment } from '@/server/repositories/employees.repository'
@@ -17,8 +17,8 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ [
 
     const departmentIds = filters?.departmentIds ?? ''
     const employeeIds = filters?.employeeIds ?? ''
-    const startDate = filters?.start ?? getDate('01')
-    const endDate = filters?.end ?? getDate('10')
+    const startDate = filters?.start || get26thDayOfMonth().toString()
+    const endDate = filters?.end || get25thDayOfNextMonth().toString()
     const permissions = await getPermissions()
 
     return (
