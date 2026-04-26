@@ -53,7 +53,7 @@ export const AbsensiTable = ({ absensiData, departments, employees, permissions 
             }
         >()
 
-        absensiData.forEach((item) => {
+        absensiData?.forEach((item) => {
             const employeeId = item.employee.id
             const employeeName = fullName(item.employee.name, item.employee.prefix, item.employee.suffix)
             const departmentName = item.employee.departments[0]?.department.name ?? '-'
@@ -89,128 +89,133 @@ export const AbsensiTable = ({ absensiData, departments, employees, permissions 
     }, [absensiData])
 
     const handleExport = () => {
-        exportAbsensi(absensiData)
+        if (absensiData) {
+            exportAbsensi(absensiData)
+        }
     }
 
     return (
-        <Autocomplete>
-            <MonthNavigation />
-            <div className='grid grid-cols-1 items-start gap-4 lg:grid-cols-4'>
-                <SearchField>
-                    <Label>Cari</Label>
-                    <SearchInput placeholder='Cari...' />
-                </SearchField>
-                {(permissions?.hr || permissions.admin || permissions.supervisor.length > 0) && (
-                    <>
-                        <FilterUnit
-                            defaultValue={permissions?.currentDepartment?.departmentId}
-                            departments={departments}
-                        />
-                        <FilterPegawai
-                            defaultValue={permissions?.currentDepartment?.employeeId}
-                            employees={employees}
-                        />
-                    </>
-                )}
-                <Button className='h-full' onPress={handleExport}>
-                    <ExcelIcon />
-                    Export
-                </Button>
-            </div>
-            <Table>
-                <TableHeader>
-                    <TableColumn isRowHeader>Hari Kerja</TableColumn>
-                    <TableColumn id='name'>Nama</TableColumn>
-                    <TableColumn>Unit</TableColumn>
-                    <TableColumn>Total Telat</TableColumn>
-                    <TableColumn>Total Pulang Cepat</TableColumn>
-                    <TableColumn>Total Jam Kerja</TableColumn>
-                </TableHeader>
-                <TableBody items={rekapan}>
-                    {(item) => (
-                        <TableRow id={item.id}>
-                            <TableCell>{item.totalWorkDays}</TableCell>
-                            <TableCell textValue={item.employeeName}>{item.employeeName}</TableCell>
-                            <TableCell>{item.departmentName}</TableCell>
-                            <TableCell>{item.totalLate}</TableCell>
-                            <TableCell>{item.totalEarlyDeparture}</TableCell>
-                            <TableCell>{item.totalWorkHours}</TableCell>
-                        </TableRow>
+        absensiData && (
+            <Autocomplete>
+                <MonthNavigation />
+                <div className='grid grid-cols-1 items-end gap-4 lg:grid-cols-4'>
+                    <SearchField>
+                        <Label>Cari</Label>
+                        <SearchInput placeholder='Cari...' />
+                    </SearchField>
+                    {(permissions?.hr || permissions.admin || permissions.supervisor.length > 0) && (
+                        <>
+                            <FilterUnit
+                                defaultValue={permissions?.currentDepartment?.departmentId}
+                                departments={departments}
+                                isDisabled={!permissions.admin && !permissions.hr}
+                            />
+                            <FilterPegawai
+                                defaultValue={permissions?.currentDepartment?.employeeId}
+                                employees={employees}
+                            />
+                        </>
                     )}
-                </TableBody>
-            </Table>
+                    <Button onPress={handleExport}>
+                        <ExcelIcon />
+                        Export
+                    </Button>
+                </div>
+                <Table>
+                    <TableHeader>
+                        <TableColumn isRowHeader>Hari Kerja</TableColumn>
+                        <TableColumn id='name'>Nama</TableColumn>
+                        <TableColumn>Unit</TableColumn>
+                        <TableColumn>Total Telat</TableColumn>
+                        <TableColumn>Total Pulang Cepat</TableColumn>
+                        <TableColumn>Total Jam Kerja</TableColumn>
+                    </TableHeader>
+                    <TableBody items={rekapan}>
+                        {(item) => (
+                            <TableRow id={item.id}>
+                                <TableCell>{item.totalWorkDays}</TableCell>
+                                <TableCell textValue={item.employeeName}>{item.employeeName}</TableCell>
+                                <TableCell>{item.departmentName}</TableCell>
+                                <TableCell>{item.totalLate}</TableCell>
+                                <TableCell>{item.totalEarlyDeparture}</TableCell>
+                                <TableCell>{item.totalWorkHours}</TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
 
-            <Disclosure>
-                <Button className='w-full' slot='trigger'>
-                    <IconEye />
-                    Rincian
-                </Button>
-                <DisclosurePanel>
-                    <Table>
-                        <TableHeader>
-                            <TableColumn isRowHeader>Tanggal</TableColumn>
-                            <TableColumn id='name'>Nama</TableColumn>
-                            <TableColumn>Unit</TableColumn>
-                            <TableColumn>Shift</TableColumn>
-                            <TableColumn>Check-in</TableColumn>
-                            <TableColumn>Check-out</TableColumn>
-                            <TableColumn>Telat</TableColumn>
-                            <TableColumn>Pulang Cepat</TableColumn>
-                            <TableColumn>Total Jam</TableColumn>
-                            <TableColumn>Keterangan</TableColumn>
-                            <TableColumn />
-                        </TableHeader>
-                        <TableBody items={absensiData}>
-                            {(item) => (
-                                <TableRow id={`${item.employee.id}_${item.date}`}>
-                                    <TableCell>{item.date}</TableCell>
-                                    <TableCell
-                                        textValue={fullName(
-                                            item.employee.name,
-                                            item.employee.prefix,
-                                            item.employee.suffix
-                                        )}
-                                    >
-                                        {fullName(item.employee.name, item.employee.prefix, item.employee.suffix)}
-                                    </TableCell>
-                                    <TableCell>{item.employee.departments[0]?.department.name}</TableCell>
-                                    <TableCell>{item.shiftCode}</TableCell>
-                                    <TableCell>{item.checkInAt}</TableCell>
-                                    <TableCell>{item.checkOutAt}</TableCell>
-                                    <TableCell>{item.late}</TableCell>
-                                    <TableCell>{item.earlyDeparture}</TableCell>
-                                    <TableCell>{item.totalWorkHours}</TableCell>
-                                    <TableCell>
-                                        {item.note ?? (
-                                            <>
-                                                {!item.checkInAt && 'Lupa C/in'}
-                                                {!item.checkOutAt && 'Lupa C/out'}
-                                            </>
-                                        )}
-                                    </TableCell>
-                                    <TableCell>
-                                        {permissions.admin && (
-                                            <EditAbsensi
-                                                defaultValues={{
-                                                    checkInAt: item.checkInAt!,
-                                                    checkOutAt: item.checkOutAt!,
-                                                    date: item.date,
-                                                    earlyDeparture: item.earlyDeparture!,
-                                                    employeeId: item.employee.id,
-                                                    late: item.late!,
-                                                    shiftCode: item.shiftCode,
-                                                    totalWorkHours: item.totalWorkHours!
-                                                }}
-                                                employeeName={item.employee.name}
-                                            />
-                                        )}
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </DisclosurePanel>
-            </Disclosure>
-        </Autocomplete>
+                <Disclosure>
+                    <Button className='w-full' slot='trigger'>
+                        <IconEye />
+                        Rincian
+                    </Button>
+                    <DisclosurePanel>
+                        <Table>
+                            <TableHeader>
+                                <TableColumn isRowHeader>Tanggal</TableColumn>
+                                <TableColumn id='name'>Nama</TableColumn>
+                                <TableColumn>Unit</TableColumn>
+                                <TableColumn>Shift</TableColumn>
+                                <TableColumn>Check-in</TableColumn>
+                                <TableColumn>Check-out</TableColumn>
+                                <TableColumn>Telat</TableColumn>
+                                <TableColumn>Pulang Cepat</TableColumn>
+                                <TableColumn>Total Jam</TableColumn>
+                                <TableColumn>Keterangan</TableColumn>
+                                <TableColumn />
+                            </TableHeader>
+                            <TableBody items={absensiData}>
+                                {(item) => (
+                                    <TableRow id={`${item.employee.id}_${item.date}`}>
+                                        <TableCell>{item.date}</TableCell>
+                                        <TableCell
+                                            textValue={fullName(
+                                                item.employee.name,
+                                                item.employee.prefix,
+                                                item.employee.suffix
+                                            )}
+                                        >
+                                            {fullName(item.employee.name, item.employee.prefix, item.employee.suffix)}
+                                        </TableCell>
+                                        <TableCell>{item.employee.departments[0]?.department.name}</TableCell>
+                                        <TableCell>{item.shiftCode}</TableCell>
+                                        <TableCell>{item.checkInAt}</TableCell>
+                                        <TableCell>{item.checkOutAt}</TableCell>
+                                        <TableCell>{item.late}</TableCell>
+                                        <TableCell>{item.earlyDeparture}</TableCell>
+                                        <TableCell>{item.totalWorkHours}</TableCell>
+                                        <TableCell>
+                                            {item.note ?? (
+                                                <>
+                                                    {!item.checkInAt && 'Lupa C/in'}
+                                                    {!item.checkOutAt && 'Lupa C/out'}
+                                                </>
+                                            )}
+                                        </TableCell>
+                                        <TableCell>
+                                            {permissions.admin && (
+                                                <EditAbsensi
+                                                    defaultValues={{
+                                                        checkInAt: item.checkInAt!,
+                                                        checkOutAt: item.checkOutAt!,
+                                                        date: item.date,
+                                                        earlyDeparture: item.earlyDeparture!,
+                                                        employeeId: item.employee.id,
+                                                        late: item.late!,
+                                                        shiftCode: item.shiftCode,
+                                                        totalWorkHours: item.totalWorkHours!
+                                                    }}
+                                                    employeeName={item.employee.name}
+                                                />
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </DisclosurePanel>
+                </Disclosure>
+            </Autocomplete>
+        )
     )
 }

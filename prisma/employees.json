@@ -11,14 +11,14 @@
         "nick": "Fifin",
         "name": "Alfin Lutfiyah",
         "shift": "PELAYANAN",
-        "departmentId": "prn",
+        "departmentId": "vk",
         "suffix": "A.Md. Keb",
         "joinDate": "2019-01-01",
         "education": "D3",
         "str": "16 02 5 2 2 22-4265500",
         "sip": "446/1088/437.52/2022",
         "sipEnd": "2027-02-04",
-        "group": ""
+        "group": "A"
     },
     {
         "nik": "3525126304940003",
@@ -39,7 +39,7 @@
         "str": "RE000001653741760",
         "sip": "NR35252501003521",
         "sipEnd": "2030-02-05",
-        "group": ""
+        "group": "A"
     },
     {
         "nik": "3517016912910001",
@@ -60,7 +60,7 @@
         "str": "16 02 5 2 1 20-3469986",
         "sip": "446/1601/437.52/2021",
         "sipEnd": "2026-12-29",
-        "group": ""
+        "group": "C"
     },
     {
         "nik": "3524265412920002",
@@ -74,14 +74,14 @@
         "nick": "Dina",
         "name": "Dina Isnayati",
         "shift": "PELAYANAN",
-        "departmentId": "vk",
+        "departmentId": "rwn",
         "suffix": "A.Md. Keb",
         "joinDate": "2014-01-01",
         "education": "D3",
         "str": "RX00000422974781",
         "sip": "NR35252506012477",
         "sipEnd": "2030-12-15",
-        "group": ""
+        "group": "A"
     },
     {
         "nik": "3525124411940004",
@@ -136,8 +136,8 @@
         "position": "Staf",
         "nick": "Nanda",
         "name": "Fitri Fera Nanda",
-        "shift": "PELAYANAN",
-        "departmentId": "vk",
+        "shift": "POLI",
+        "departmentId": "rjl",
         "suffix": "A.Md. Keb",
         "joinDate": "2023-01-01",
         "education": "D3",
@@ -158,14 +158,14 @@
         "nick": "Lilis",
         "name": "Lilis Aryani",
         "shift": "PELAYANAN",
-        "departmentId": "vk",
+        "departmentId": "rwn",
         "suffix": "A.Md. Keb",
         "joinDate": "2022-01-01",
         "education": "D3",
         "str": "HG00000581303058",
         "sip": "NR35252503005470",
         "sipEnd": "2030-08-09",
-        "group": ""
+        "group": "D"
     },
     {
         "nik": "3524155108890003",
@@ -186,7 +186,7 @@
         "str": "TK00000442567778",
         "sip": "NR35252602012916",
         "sipEnd": "2031-12-08",
-        "group": ""
+        "group": "D"
     },
     {
         "nik": "3525124104930002",
@@ -228,7 +228,7 @@
         "str": "16 02 5 2 2 20-3274185",
         "sip": "446/1273/437.52/2020",
         "sipEnd": "2025-04-07",
-        "group": ""
+        "group": "D"
     },
     {
         "nik": "3525095403930001",
@@ -249,7 +249,7 @@
         "str": "VE00000439406619",
         "sip": "446/437/437.52/2024",
         "sipEnd": "2029-06-02",
-        "group": ""
+        "group": "B"
     },
     {
         "nik": "3525016003940004",
@@ -270,7 +270,7 @@
         "str": "OM00000446676288",
         "sip": "NR35252412007858",
         "sipEnd": "2030-03-21",
-        "group": ""
+        "group": "B"
     },
     {
         "nik": "3525015305980002",
@@ -284,14 +284,14 @@
         "nick": "Aini",
         "name": "Nur Rohmatul Aini",
         "shift": "PELAYANAN",
-        "departmentId": "prn",
+        "departmentId": "rwn",
         "suffix": "S.Tr. Keb.",
         "joinDate": "2023-01-01",
         "education": "S1",
         "str": "16 02 7 2 2 22-4191002",
         "sip": "446/32/437.52/2024",
         "sipEnd": "2027-05-30",
-        "group": ""
+        "group": "B"
     },
     {
         "nik": "3525036612950001",
@@ -333,7 +333,7 @@
         "str": "SC00001657896212",
         "sip": "NR35252412003121",
         "sipEnd": "2030-04-02",
-        "group": ""
+        "group": "C"
     },
     {
         "nik": "3524265005840001",
@@ -368,14 +368,14 @@
         "nick": "Yayuk",
         "name": "Yayuk Ernawati",
         "shift": "PELAYANAN",
-        "departmentId": "vk",
+        "departmentId": "rwn",
         "suffix": "S.Tr. Keb",
         "joinDate": "2015-01-01",
         "education": "D4",
         "str": "IC00000708910559",
         "sip": "446/438/437.52/2024",
         "sipEnd": "2026-06-02",
-        "group": ""
+        "group": "C"
     },
     {
         "nik": "3525120706040001",
@@ -407,7 +407,7 @@
         "prefix": "",
         "gender": "P",
         "position": "Staf",
-        "nick": "Adesi",
+        "nick": "Desi",
         "name": "Adesi Risky Indriani",
         "shift": "PELAYANAN",
         "departmentId": "igd",
@@ -417,7 +417,7 @@
         "str": "16 01 2 2 22-4378832",
         "sip": "446/4886/437.52/2022",
         "sipEnd": "2027-03-05",
-        "group": ""
+        "group": "A"
     },
     {
         "nik": "3525012403960002",
@@ -459,7 +459,7 @@
         "str": "FU00000461389066",
         "sip": "446/1425/437.52/2024",
         "sipEnd": "2029-03-28",
-        "group": ""
+        "group": "B"
     },
     {
         "nik": "3525104411960002",
@@ -491,7 +491,7 @@
         "prefix": "",
         "gender": "P",
         "position": "Staf",
-        "nick": "Ainul",
+        "nick": "Fara",
         "name": "Ainul Faradisah",
         "shift": "PELAYANAN",
         "departmentId": "prn",
@@ -543,7 +543,7 @@
         "str": "AD00001507409598",
         "sip": "446/4007/437.52/2024",
         "sipEnd": "2029-09-19",
-        "group": ""
+        "group": "B"
     },
     {
         "nik": "3525095512990001",
@@ -564,7 +564,7 @@
         "str": "16 01 7 2 1 23-4579096",
         "sip": "446/934/437.52/2023",
         "sipEnd": "2028-12-15",
-        "group": ""
+        "group": "D"
     },
     {
         "nik": "3525105712960002",
@@ -585,7 +585,7 @@
         "str": "16 01 5 2 1 22-4255753",
         "sip": "446/835/437.52/2022",
         "sipEnd": "2027-12-17",
-        "group": ""
+        "group": "B"
     },
     {
         "nik": "3524173107010002",
@@ -599,14 +599,14 @@
         "nick": "Dimas",
         "name": "Dimas Rozani",
         "shift": "PELAYANAN",
-        "departmentId": "rwn",
+        "departmentId": "igd",
         "suffix": "A.Md. Kep",
         "joinDate": "2023-01-01",
         "education": "D3",
         "str": "16 01 5 1 1 22-4515835",
         "sip": "446/1657/437.52.2023",
         "sipEnd": "2027-07-31",
-        "group": ""
+        "group": "A"
     },
     {
         "nik": "3525091802920002",
@@ -648,7 +648,7 @@
         "str": "ID0000206622800",
         "sip": "446/658/437.52/2024",
         "sipEnd": "2029-02-27",
-        "group": ""
+        "group": "C"
     },
     {
         "nik": "3523195112940001",
@@ -669,7 +669,7 @@
         "str": "DS00000528807009",
         "sip": "NR35252507017577",
         "sipEnd": "2030-12-12",
-        "group": ""
+        "group": "A"
     },
     {
         "nik": "3525125705940002",
@@ -703,15 +703,15 @@
         "position": "Staf",
         "nick": "Tina",
         "name": "Faizatul Agustina",
-        "shift": "POLI",
-        "departmentId": "rjl",
+        "shift": "PELAYANAN",
+        "departmentId": "rwn",
         "suffix": "S. Kep. Ns",
         "joinDate": "2019-01-01",
         "education": "S1",
         "str": "YS00001385593423",
         "sip": "NR35252503002210",
         "sipEnd": "2030-08-29",
-        "group": ""
+        "group": "A"
     },
     {
         "nik": "3525125005000002",
@@ -725,7 +725,7 @@
         "nick": "Faif",
         "name": "Faiqotul Ilmi",
         "shift": "PELAYANAN",
-        "departmentId": "rwn",
+        "departmentId": "rjl",
         "suffix": "S. Kep. Ns",
         "joinDate": "2023-01-01",
         "education": "S1",
@@ -746,14 +746,14 @@
         "nick": "Feri",
         "name": "Feri Kisbiyantoro",
         "shift": "PELAYANAN",
-        "departmentId": "rwn",
+        "departmentId": "icu",
         "suffix": "S. Kep. Ns",
         "joinDate": "2018-01-01",
         "education": "S1",
         "str": "YE00001730769288",
         "sip": "NR35252502002274",
         "sipEnd": "2030-05-29",
-        "group": ""
+        "group": "C"
     },
     {
         "nik": "3523152211980002",
@@ -774,7 +774,7 @@
         "str": "16 01 7 1 1 23-4603567",
         "sip": "NR35252507003790",
         "sipEnd": "2028-11-22",
-        "group": ""
+        "group": "B"
     },
     {
         "nik": "3525036605950001",
@@ -806,17 +806,17 @@
         "prefix": "",
         "gender": "P",
         "position": "Staf",
-        "nick": "Ismi",
+        "nick": "I'is",
         "name": "Ismi Dwi Wahyuni",
         "shift": "PELAYANAN",
-        "departmentId": "rwn",
+        "departmentId": "igd",
         "suffix": "S. Kep. Ns",
         "joinDate": "2023-01-01",
         "education": "S1",
         "str": "16 01 7 1 2 22-4450302",
         "sip": "446/1944/437.52/2023",
         "sipEnd": "2027-10-07",
-        "group": ""
+        "group": "D"
     },
     {
         "nik": "3525072707990001",
@@ -837,7 +837,7 @@
         "str": "16 01 5 1 1 21-4035512",
         "sip": "446/447/437.52/2021",
         "sipEnd": "2026-07-27",
-        "group": ""
+        "group": "C"
     },
     {
         "nik": "3525035408000002",
@@ -851,14 +851,14 @@
         "nick": "Fikriya",
         "name": "Mahbubatul Fikriyah",
         "shift": "PELAYANAN",
-        "departmentId": "igd",
+        "departmentId": "rwn",
         "suffix": "S. Kep. Ns",
         "joinDate": "2024-01-01",
         "education": "S1",
         "str": "PK00000262081911",
         "sip": "446/387/437.52.2024",
         "sipEnd": "2029-06-02",
-        "group": ""
+        "group": "C"
     },
     {
         "nik": "3525120802970002",
@@ -913,15 +913,15 @@
         "position": "Staf",
         "nick": "Febri",
         "name": "Moh Febri Sectio N.",
-        "shift": "FREE",
-        "departmentId": "ok",
+        "shift": "PELAYANAN",
+        "departmentId": "icu",
         "suffix": "A.Md. Kep",
         "joinDate": "2022-01-01",
         "education": "D3",
         "str": "EA00001926471066",
         "sip": "NR35252602013876",
         "sipEnd": "2031-02-26",
-        "group": ""
+        "group": "A"
     },
     {
         "nik": "3525126910000004",
@@ -956,14 +956,14 @@
         "nick": "Ida",
         "name": "Nurul Hidayati",
         "shift": "PELAYANAN",
-        "departmentId": "rwn",
+        "departmentId": "icu",
         "suffix": "S. Kep. Ns",
         "joinDate": "2010-01-01",
         "education": "S1",
         "str": "16 01 7 2 1 21-4067784",
         "sip": "446/1736/437.52//2021",
         "sipEnd": "2026-11-23",
-        "group": ""
+        "group": "D"
     },
     {
         "nik": "3525107010940002",
@@ -998,14 +998,14 @@
         "nick": "Laili",
         "name": "Nur Lailiyah Syafitri",
         "shift": "PELAYANAN",
-        "departmentId": "igd",
+        "departmentId": "rwn",
         "suffix": "A.Md. Kep",
         "joinDate": "2023-01-01",
         "education": "D3",
         "str": "16 01 5 2 1 22-4209201",
         "sip": "446/2230/437.52/2023",
         "sipEnd": "2027-05-17",
-        "group": ""
+        "group": "C"
     },
     {
         "nik": "3525126001730003",
@@ -1026,7 +1026,7 @@
         "str": "NO00001743774330",
         "sip": "NR35252503005109",
         "sipEnd": "2030-03-31",
-        "group": ""
+        "group": "D"
     },
     {
         "nik": "3525125102830002",
@@ -1058,7 +1058,7 @@
         "prefix": "",
         "gender": "L",
         "position": "Staf",
-        "nick": "Norih",
+        "nick": "Nori",
         "name": "Nor Muhammad Faqih",
         "shift": "PELAYANAN",
         "departmentId": "igd",
@@ -1068,7 +1068,7 @@
         "str": "16 01 7 1 2 22-4274459",
         "sip": "446/3378/437.52/2022",
         "sipEnd": "2027-08-30",
-        "group": ""
+        "group": "D"
     },
     {
         "nik": "3516134602940002",
@@ -1081,15 +1081,15 @@
         "position": "Staf",
         "nick": "Indah",
         "name": "Nurindah Triwahyuningsih",
-        "shift": "FREE",
-        "departmentId": "ok",
+        "shift": "PELAYANAN",
+        "departmentId": "icu",
         "suffix": "S. Kep. Ns",
         "joinDate": "2024-01-01",
         "education": "S1",
         "str": "16 01 7 2 2 23-4656494",
         "sip": "446/656/437.52/2024",
         "sipEnd": "2028-06-02",
-        "group": ""
+        "group": "A"
     },
     {
         "nik": "3525125306000003",
@@ -1100,7 +1100,7 @@
         "prefix": "",
         "gender": "P",
         "position": "Staf",
-        "nick": "Riskiyatul",
+        "nick": "Riza",
         "name": "Riskiyatul Khabibah",
         "shift": "PELAYANAN",
         "departmentId": "igd",
@@ -1110,7 +1110,7 @@
         "str": "DH00001551244232",
         "sip": "NR35252503011802",
         "sipEnd": "2130-03-27",
-        "group": ""
+        "group": "C"
     },
     {
         "nik": "3525124412950003",
@@ -1152,7 +1152,7 @@
         "str": "16 01 5 1 1 21-4075112",
         "sip": "446/1722/437.52/2021",
         "sipEnd": "2026-02-11",
-        "group": ""
+        "group": "B"
     },
     {
         "nik": "3524202706840002",
@@ -1229,14 +1229,14 @@
         "nick": "Ifah",
         "name": "Umu Lathifah",
         "shift": "PELAYANAN",
-        "departmentId": "rwn",
+        "departmentId": "prn",
         "suffix": "A.Md. Kep",
         "joinDate": "2022-01-01",
         "education": "D3",
         "str": "16 01 5 2 1 21-3441984",
         "sip": "446/3756/437.52/2022",
         "sipEnd": "2026-11-17",
-        "group": ""
+        "group": "C"
     },
     {
         "nik": "3525126410980003",
@@ -1593,7 +1593,7 @@
         "str": "16 14 5 2 2 23-4632744",
         "sip": "446/876/437.52/2023",
         "sipEnd": "2028-06-06",
-        "group": ""
+        "group": "C"
     },
     {
         "nik": "3525124809820004",
@@ -1635,7 +1635,7 @@
         "str": "16 14 6 2 1 21-3496483",
         "sip": "446/1993/437/52/2021",
         "sipEnd": "2026-09-26",
-        "group": ""
+        "group": "D"
     },
     {
         "nik": "3525125307980001",
@@ -1656,7 +1656,7 @@
         "str": "16 14 6 2 1 21-3485933",
         "sip": "446/1235/437.52/2021",
         "sipEnd": "2026-07-13",
-        "group": ""
+        "group": "B"
     },
     {
         "nik": "3525125510980001",
@@ -1677,7 +1677,7 @@
         "str": "16 14 5 2 1 21-3413805",
         "sip": "446/2382/437.52/2021",
         "sipEnd": "2026-10-15",
-        "group": ""
+        "group": "A"
     },
     {
         "nik": "3525125510980001",
@@ -1698,7 +1698,7 @@
         "str": "",
         "sip": "",
         "sipEnd": "",
-        "group": ""
+        "group": "B"
     },
     {
         "nik": "",
@@ -1719,7 +1719,7 @@
         "str": "",
         "sip": "",
         "sipEnd": "",
-        "group": ""
+        "group": "C"
     },
     {
         "nik": "3525105610960002",
@@ -1740,7 +1740,7 @@
         "str": "16 14 5 2 1 22-4563857",
         "sip": "446/877/437.52/2023",
         "sipEnd": "2027-10-16",
-        "group": ""
+        "group": "A"
     },
     {
         "nik": "3525014407010003",
@@ -1761,7 +1761,7 @@
         "str": "16 14 5 2 1 22-4564006",
         "sip": "446/216/437.52/2023",
         "sipEnd": "2027-04-07",
-        "group": ""
+        "group": "D"
     },
     {
         "nik": "3525127012920002",
@@ -2349,7 +2349,7 @@
         "str": "",
         "sip": "",
         "sipEnd": "",
-        "group": ""
+        "group": "A"
     },
     {
         "nik": "3525104411840004",
@@ -2370,7 +2370,7 @@
         "str": "",
         "sip": "",
         "sipEnd": "",
-        "group": ""
+        "group": "B"
     },
     {
         "nik": "3525125212940004",
@@ -2391,7 +2391,7 @@
         "str": "",
         "sip": "",
         "sipEnd": "",
-        "group": ""
+        "group": "D"
     },
     {
         "nik": "3525126307920003",
@@ -2412,7 +2412,7 @@
         "str": "",
         "sip": "",
         "sipEnd": "",
-        "group": ""
+        "group": "C"
     },
     {
         "nik": "3525124909040001",

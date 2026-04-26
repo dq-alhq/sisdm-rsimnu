@@ -5,8 +5,10 @@ import { useDebounceCallback } from '@/hooks/use-debounce'
 
 export const FilterUnit = ({
     departments,
-    defaultValue
+    defaultValue,
+    isDisabled
 }: {
+    isDisabled?: boolean
     defaultValue?: string
     departments: ListDepartmentsResult
 }) => {
@@ -16,6 +18,7 @@ export const FilterUnit = ({
     const handleQuery = useDebounceCallback((term) => {
         const params = new URLSearchParams(searchParams)
         if (term) {
+            params.delete('employeeIds')
             params.set('departmentIds', term)
         } else {
             params.delete('departmentIds')
@@ -28,6 +31,7 @@ export const FilterUnit = ({
     return (
         <SearchableSelect
             defaultValue={value}
+            isDisabled={isDisabled}
             items={departments}
             label='Unit'
             name={'departmentId'}

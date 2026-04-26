@@ -1,13 +1,12 @@
 import type { Metadata } from 'next'
-import { JetBrains_Mono, Quicksand } from 'next/font/google'
+import { JetBrains_Mono, Raleway } from 'next/font/google'
 import './globals.css'
 import type { PropsWithChildren } from 'react'
 import { Providers } from '@/components/providers'
 import { app } from '@/config/app'
 
-const fontSans = Quicksand({
+const fontSans = Raleway({
     variable: '--font-sans',
-    weight: '500',
     subsets: ['latin']
 })
 

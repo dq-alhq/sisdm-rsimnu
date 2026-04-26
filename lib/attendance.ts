@@ -135,6 +135,10 @@ const formatShiftLabel = (shift: ShiftWindow) =>
     )}:${pad2(shift.checkOutMinutes % 60)}`
 
 const normalizeShiftCode = (value?: string | null) => value?.trim().toLowerCase().replace(/\s+/g, ' ') ?? ''
+const getWorkDurationMinutes = (start: Date | null, end: Date | null) => {
+    if (!start || !end || end.getTime() <= start.getTime()) return 0
+    return Math.round((end.getTime() - start.getTime()) / 60000)
+}
 
 const statePenalty = (state: 'C/In' | 'C/Out', expected: 'C/In' | 'C/Out') => (state === expected ? 0 : 10)
 
@@ -244,6 +248,14 @@ const scorePreferredShift = (shift: ShiftWindow, preferredShiftCode?: string | n
     return normalizeShiftCode(shift.code) === preferredShift ? 0 : 120
 }
 
+const getCandidateShifts = (shifts: ShiftWindow[], preferredShiftCode?: string | null) => {
+    const preferredShift = normalizeShiftCode(preferredShiftCode)
+    if (!preferredShift) return shifts
+
+    const matchedShifts = shifts.filter((shift) => normalizeShiftCode(shift.code) === preferredShift)
+    return matchedShifts.length > 0 ? matchedShifts : shifts
+}
+
 const matchSingleLogToShift = (
     log: NormalizedAttendanceLog,
     shifts: ShiftWindow[],
@@ -251,8 +263,9 @@ const matchSingleLogToShift = (
 ): AttendanceMatch | null => {
     let bestMatch: AttendanceMatch | null = null
     const candidateBaseDates = getCandidateBaseDates([log.time])
+    const candidateShifts = getCandidateShifts(shifts, preferredShiftCode)
 
-    shifts.forEach((shift) => {
+    candidateShifts.forEach((shift) => {
         candidateBaseDates.forEach((baseDate) => {
             const expectedCheckInAt = addMinutes(baseDate, shift.checkInMinutes)
             const expectedCheckOutAt = addMinutes(
@@ -307,8 +320,9 @@ const matchPairToShift = (
 
     let bestMatch: ShiftMatchResult | null = null
     const candidateBaseDates = getCandidateBaseDates([firstLog.time, secondLog.time])
+    const candidateShifts = getCandidateShifts(shifts, preferredShiftCode)
 
-    shifts.forEach((shift) => {
+    candidateShifts.forEach((shift) => {
         candidateBaseDates.forEach((baseDate) => {
             const expectedCheckInAt = addMinutes(baseDate, shift.checkInMinutes)
             const expectedCheckOutAt = addMinutes(
@@ -530,10 +544,9 @@ export const buildScheduleDraftsFromAttendance = ({
                 group.checkOutAt && group.checkOutAt.getTime() < group.expectedCheckOutAt.getTime()
                     ? Math.round((group.expectedCheckOutAt.getTime() - group.checkOutAt.getTime()) / 60000)
                     : 0
-            const totalWorkMinutes =
-                group.checkInAt && group.checkOutAt && group.checkOutAt.getTime() > group.checkInAt.getTime()
-                    ? Math.round((group.checkOutAt.getTime() - group.checkInAt.getTime()) / 60000)
-                    : 0
+            const fallbackCheckInAt = group.checkInAt ?? (group.checkOutAt ? group.expectedCheckInAt : null)
+            const fallbackCheckOutAt = group.checkOutAt ?? (group.checkInAt ? group.expectedCheckOutAt : null)
+            const totalWorkMinutes = getWorkDurationMinutes(fallbackCheckInAt, fallbackCheckOutAt)
 
             return {
                 employeeId: group.employeeId,

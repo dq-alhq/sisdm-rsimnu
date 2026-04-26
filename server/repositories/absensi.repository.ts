@@ -12,6 +12,10 @@ const absensiSchema = z.object({
 export const getAbsensi = async (props: z.infer<typeof absensiSchema>) => {
     const { startDate, endDate, employeeIds } = absensiSchema.parse(props)
 
+    if (!employeeIds || employeeIds.length === 0) {
+        return null
+    }
+
     return db.schedule.findMany({
         where: {
             date: {

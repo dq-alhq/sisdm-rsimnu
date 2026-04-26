@@ -53,6 +53,8 @@ export const getBadge = (text: string | null) => {
             return <Badge intent='warning'>{text}</Badge>
         case 'OFF':
             return <Badge intent='secondary'>{text}</Badge>
+        case 'D':
+            return <Badge intent='danger'>{text}</Badge>
         default:
             return text
     }

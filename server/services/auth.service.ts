@@ -262,7 +262,7 @@ export const getPermissions = async () => {
     const hr = departments.some((d) => d.position?.toLowerCase().includes('sdm'))
     const currentDepartment = departments.find((d) => d.endAt === null)
     const supervisor = departments
-        .filter((d) => d.position?.toLowerCase().startsWith('ka'))
+        .filter((d) => d.position?.toLowerCase().includes('supervisor'))
         .map((d) => ({
             id: d.departmentId,
             name: d.department.name

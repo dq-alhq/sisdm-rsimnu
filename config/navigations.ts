@@ -3,7 +3,7 @@ import {
     IconBookmarkOff,
     IconBriefcase2,
     IconCalendarClock,
-    IconCalendarDaysFill,
+    IconCalendarDays,
     IconCirclePerson,
     IconFolderBox,
     IconGrid4,
@@ -71,7 +71,7 @@ export const getNavigations = (permissions: GetPermissionResult) => {
         {
             title: 'Jadwal',
             href: '/jadwal',
-            icon: IconCalendarDaysFill,
+            icon: IconCalendarDays,
             show: true
         },
         {

@@ -36,38 +36,40 @@ export const JadwalTable = (props: GetScheduleResponse) => {
                         ))}
                     </TableHeader>
                     <TableBody>
-                        {allEmployeesInDepartment.map((employee) => (
-                            <TableRow key={employee.id}>
-                                <TableCell className={'sticky left-0 z-1 bg-bg *:justify-center **:pl-4'}>
-                                    {employee.group || '-'}
-                                </TableCell>
-                                <TableCell
-                                    className={cn(
-                                        'sticky left-16 z-1 bg-bg',
-                                        currentEmployee?.id === employee.id ? 'text-primary' : ''
-                                    )}
-                                    textValue={fullName(employee.name, employee.prefix, employee.suffix)}
-                                >
-                                    {fullName(employee.name, employee.prefix, employee.suffix)}
-                                </TableCell>
-                                {shiftPatterns.map((pattern) => {
-                                    const key = employee.group as keyof ShiftPattern
-                                    const shift = pattern[key]
-                                    const schedule = schedules.find(
-                                        (s) => s.employeeId === employee.id && s.date === pattern.date
-                                    )
-                                    const value =
-                                        schedule?.shiftCode && shiftSettingsMap
-                                            ? shiftSettingsMap[schedule.shiftCode as keyof typeof shiftSettingsMap]
-                                            : shift
-                                    return (
-                                        <TableCell className='text-center *:justify-center' key={pattern.date}>
-                                            {getBadge(value)}
-                                        </TableCell>
-                                    )
-                                })}
-                            </TableRow>
-                        ))}
+                        {allEmployeesInDepartment
+                            .filter((e) => e.group)
+                            .map((employee) => (
+                                <TableRow key={employee.id}>
+                                    <TableCell className={'sticky left-0 z-1 bg-bg *:justify-center **:pl-4'}>
+                                        {employee.group || '-'}
+                                    </TableCell>
+                                    <TableCell
+                                        className={cn(
+                                            'sticky left-16 z-1 bg-bg',
+                                            currentEmployee?.id === employee.id ? 'text-primary' : ''
+                                        )}
+                                        textValue={fullName(employee.name, employee.prefix, employee.suffix)}
+                                    >
+                                        {fullName(employee.name, employee.prefix, employee.suffix)}
+                                    </TableCell>
+                                    {shiftPatterns.map((pattern) => {
+                                        const key = employee.group as keyof ShiftPattern
+                                        const shift = pattern[key]
+                                        const schedule = schedules.find(
+                                            (s) => s.employeeId === employee.id && s.date === pattern.date
+                                        )
+                                        const value =
+                                            schedule?.shiftCode && shiftSettingsMap
+                                                ? shiftSettingsMap[schedule.shiftCode as keyof typeof shiftSettingsMap]
+                                                : shift
+                                        return (
+                                            <TableCell className='text-center *:justify-center' key={pattern.date}>
+                                                {getBadge(value)}
+                                            </TableCell>
+                                        )
+                                    })}
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
             </div>

@@ -15,11 +15,11 @@ import { type GetPermissionResult, getPermissions } from '@/server/services/auth
 export default async function Page({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
     const filters = await searchParams
 
-    const departmentIds = filters?.departmentIds ?? ''
-    const employeeIds = filters?.employeeIds ?? ''
     const startDate = filters?.start || get26thDayOfMonth().toString()
     const endDate = filters?.end || get25thDayOfNextMonth().toString()
     const permissions = await getPermissions()
+    const employeeIds = filters?.employeeIds ?? permissions.currentDepartment?.employeeId
+    const departmentIds = filters?.departmentIds ?? permissions.currentDepartment?.departmentId
 
     return (
         <>
@@ -69,9 +69,7 @@ async function ListAbsensi({
     ])
 
     const absensiData = await getAbsensi({
-        employeeIds: employeeIds
-            ? employeeIds.split(',')
-            : ([permissions.currentDepartment?.employeeId].filter(Boolean) as string[]),
+        employeeIds: employeeIds?.split(','),
         startDate,
         endDate
     })

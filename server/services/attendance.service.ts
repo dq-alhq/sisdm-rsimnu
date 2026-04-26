@@ -71,7 +71,8 @@ export const previewAttendances = async (rawAttendances: RawAttendanceRow[]) => 
                         assignedAt: 'desc'
                     },
                     select: {
-                        shift: true
+                        shift: true,
+                        endAt: true
                     },
                     take: 1
                 }
@@ -92,11 +93,16 @@ export const previewAttendances = async (rawAttendances: RawAttendanceRow[]) => 
 
     const result = buildScheduleDraftsFromAttendance({
         rows: parsed.data,
-        employees: employees.map((employee) => ({
-            id: employee.id,
-            name: employee.name,
-            preferredShiftCode: employee.departments[0]?.shift ?? null
-        })),
+        employees: employees.map((employee) => {
+            const activeDepartment =
+                employee.departments.find((department) => department.endAt === null) ?? employee.departments[0]
+
+            return {
+                id: employee.id,
+                name: employee.name,
+                preferredShiftCode: activeDepartment?.shift ?? null
+            }
+        }),
         shiftSettings
     })
 

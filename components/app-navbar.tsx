@@ -27,6 +27,7 @@ import { getNavigations } from '@/config/navigations'
 import { authClient } from '@/lib/auth-client'
 import { AppLogo } from './app-logo'
 import { ModeToggle } from './mode-toggle'
+import { IconCalendarClock, IconGrid4, IconPeople } from '@intentui/icons'
 
 export default function AppNavbar(props: NavbarProps & { permissions: GetPermissionResult }) {
     const pathname = usePathname()
@@ -103,9 +104,18 @@ export function UserMenu({ user }: { user: GetPermissionResult['user'] }) {
                         </span>
                     </MenuHeader>
                 </MenuSection>
-                <MenuItem href='/profile'>
-                    <Cog6ToothIcon />
-                    Profil
+                <MenuItem href='/dashboard'>
+                    <IconGrid4 />
+                    Dashboard
+                </MenuItem>
+                <MenuSeparator />
+                <MenuItem href='/employees'>
+                    <IconPeople />
+                    Data Pegawai
+                </MenuItem>
+                <MenuItem href='/absensi'>
+                    <IconCalendarClock />
+                    Data Absensi
                 </MenuItem>
                 <MenuSeparator />
                 <MenuItem intent='danger' onAction={signOut}>
