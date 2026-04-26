@@ -147,27 +147,55 @@ export const createAttendances = async (attendances: z.infer<typeof attendancesS
             }
         })
 
-        await db.$transaction(
-            normalizedAttendances.map((attendance) =>
-                db.schedule.upsert({
-                    where: {
-                        employeeId_date: {
-                            employeeId: attendance.employeeId,
-                            date: attendance.date
-                        }
-                    },
-                    update: {
-                        shiftCode: attendance.shiftCode,
-                        checkInAt: attendance.checkInAt,
-                        checkOutAt: attendance.checkOutAt,
-                        late: attendance.late,
-                        earlyDeparture: attendance.earlyDeparture,
-                        totalWorkHours: attendance.totalWorkHours
-                    },
-                    create: attendance
-                })
+        const chunkSize = 50
+
+        for (let i = 0; i < normalizedAttendances.length; i += chunkSize) {
+            const chunk = normalizedAttendances.slice(i, i + chunkSize)
+
+            await db.$transaction(
+                chunk.map((attendance) =>
+                    db.schedule.upsert({
+                        where: {
+                            employeeId_date: {
+                                employeeId: attendance.employeeId,
+                                date: attendance.date
+                            }
+                        },
+                        update: {
+                            shiftCode: attendance.shiftCode,
+                            checkInAt: attendance.checkInAt,
+                            checkOutAt: attendance.checkOutAt,
+                            late: attendance.late,
+                            earlyDeparture: attendance.earlyDeparture,
+                            totalWorkHours: attendance.totalWorkHours
+                        },
+                        create: attendance
+                    })
+                )
             )
-        )
+        }
+        //
+        // await db.$transaction(
+        //     normalizedAttendances.map((attendance) =>
+        //         db.schedule.upsert({
+        //             where: {
+        //                 employeeId_date: {
+        //                     employeeId: attendance.employeeId,
+        //                     date: attendance.date
+        //                 }
+        //             },
+        //             update: {
+        //                 shiftCode: attendance.shiftCode,
+        //                 checkInAt: attendance.checkInAt,
+        //                 checkOutAt: attendance.checkOutAt,
+        //                 late: attendance.late,
+        //                 earlyDeparture: attendance.earlyDeparture,
+        //                 totalWorkHours: attendance.totalWorkHours
+        //             },
+        //             create: attendance
+        //         })
+        //     )
+        // )
 
         revalidatePath('/jadwal')
         revalidatePath('/import-absensi')
