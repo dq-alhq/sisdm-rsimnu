@@ -4,7 +4,7 @@ import type { GetPermissionResult } from '@/server/services/auth.service'
 import type { NavItem } from '@/types'
 import { IconChevronsUpDown, IconCirclePerson, IconLogout } from '@intentui/icons'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Avatar } from '@/components/ui/avatar'
 import { app } from '@/config/app'
 import { getNavigations } from '@/config/navigations'
@@ -29,6 +29,7 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 
 export function AppSidebar({ permissions, ...props }: AppSidebarProps) {
     const pathname = usePathname()
+    const router = useRouter()
     const { setIsOpenOnMobile, isOpenOnMobile } = useSidebar()
 
     useEffect(() => {
@@ -38,6 +39,22 @@ export function AppSidebar({ permissions, ...props }: AppSidebarProps) {
     }, [pathname])
 
     const { mainNavigations, footerNavigations, supervisorNavigations } = getNavigations(permissions)
+    const allNavigationHrefs = useMemo(
+        () =>
+            [...mainNavigations, ...supervisorNavigations, ...footerNavigations]
+                .map((item) => item.href)
+                .filter(
+                    (href): href is string =>
+                        typeof href === 'string' && href.startsWith('/') && !href.startsWith('/api')
+                ),
+        [mainNavigations, supervisorNavigations, footerNavigations]
+    )
+
+    useEffect(() => {
+        for (const href of allNavigationHrefs) {
+            router.prefetch(href)
+        }
+    }, [router, allNavigationHrefs])
 
     return (
         <Sidebar {...props}>
