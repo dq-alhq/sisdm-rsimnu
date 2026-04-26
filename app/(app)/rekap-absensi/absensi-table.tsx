@@ -38,7 +38,7 @@ export const AbsensiEmployeeTable = ({ data }: { data: AbsensiData }) => {
             }
         >()
 
-        data.forEach((item) => {
+        data?.forEach((item) => {
             const employeeId = item.employee.id
             const employeeName = fullName(item.employee.name, item.employee.prefix, item.employee.suffix)
             const departmentName = item.employee.departments[0]?.department.name ?? '-'
@@ -74,95 +74,98 @@ export const AbsensiEmployeeTable = ({ data }: { data: AbsensiData }) => {
     }, [data])
 
     const handleExport = () => {
+        if (!data) return
         exportAbsensi(data)
     }
 
     return (
-        <>
-            <Heading description='Menampilkan rekap absensi pegawai' title='Rekap Absensi'>
-                <Button onPress={handleExport}>
-                    <ExcelIcon />
-                    Export
-                </Button>
-            </Heading>
-            <MonthNavigation />
+        data && (
+            <>
+                <Heading description='Menampilkan rekap absensi pegawai' title='Rekap Absensi'>
+                    <Button onPress={handleExport}>
+                        <ExcelIcon />
+                        Export
+                    </Button>
+                </Heading>
+                <MonthNavigation />
 
-            <Table>
-                <TableHeader>
-                    <TableColumn isRowHeader>Hari Kerja</TableColumn>
-                    <TableColumn id='name'>Nama</TableColumn>
-                    <TableColumn>Unit</TableColumn>
-                    <TableColumn>Total Telat</TableColumn>
-                    <TableColumn>Total Pulang Cepat</TableColumn>
-                    <TableColumn>Total Jam Kerja</TableColumn>
-                </TableHeader>
-                <TableBody items={rekapan}>
-                    {(item) => (
-                        <TableRow id={item.id}>
-                            <TableCell>{item.totalWorkDays}</TableCell>
-                            <TableCell textValue={item.employeeName}>{item.employeeName}</TableCell>
-                            <TableCell>{item.departmentName}</TableCell>
-                            <TableCell>{item.totalLate}</TableCell>
-                            <TableCell>{item.totalEarlyDeparture}</TableCell>
-                            <TableCell>{item.totalWorkHours}</TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
+                <Table>
+                    <TableHeader>
+                        <TableColumn isRowHeader>Hari Kerja</TableColumn>
+                        <TableColumn id='name'>Nama</TableColumn>
+                        <TableColumn>Unit</TableColumn>
+                        <TableColumn>Total Telat</TableColumn>
+                        <TableColumn>Total Pulang Cepat</TableColumn>
+                        <TableColumn>Total Jam Kerja</TableColumn>
+                    </TableHeader>
+                    <TableBody items={rekapan}>
+                        {(item) => (
+                            <TableRow id={item.id}>
+                                <TableCell>{item.totalWorkDays}</TableCell>
+                                <TableCell textValue={item.employeeName}>{item.employeeName}</TableCell>
+                                <TableCell>{item.departmentName}</TableCell>
+                                <TableCell>{item.totalLate}</TableCell>
+                                <TableCell>{item.totalEarlyDeparture}</TableCell>
+                                <TableCell>{item.totalWorkHours}</TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
 
-            <Disclosure>
-                <Button className='w-full' slot='trigger'>
-                    <IconEye />
-                    Rincian
-                </Button>
-                <DisclosurePanel>
-                    <Table>
-                        <TableHeader>
-                            <TableColumn isRowHeader>Tanggal</TableColumn>
-                            <TableColumn id='name'>Nama</TableColumn>
-                            <TableColumn>Unit</TableColumn>
-                            <TableColumn>Shift</TableColumn>
-                            <TableColumn>Check-in</TableColumn>
-                            <TableColumn>Check-out</TableColumn>
-                            <TableColumn>Telat</TableColumn>
-                            <TableColumn>Pulang Cepat</TableColumn>
-                            <TableColumn>Total Jam</TableColumn>
-                            <TableColumn>Keterangan</TableColumn>
-                        </TableHeader>
-                        <TableBody items={data}>
-                            {(item) => (
-                                <TableRow id={`${item.employee.id}_${item.date}`}>
-                                    <TableCell>{item.date}</TableCell>
-                                    <TableCell
-                                        textValue={fullName(
-                                            item.employee.name,
-                                            item.employee.prefix,
-                                            item.employee.suffix
-                                        )}
-                                    >
-                                        {fullName(item.employee.name, item.employee.prefix, item.employee.suffix)}
-                                    </TableCell>
-                                    <TableCell>{item.employee.departments[0]?.department.name}</TableCell>
-                                    <TableCell>{item.shiftCode}</TableCell>
-                                    <TableCell>{item.checkInAt}</TableCell>
-                                    <TableCell>{item.checkOutAt}</TableCell>
-                                    <TableCell>{item.late}</TableCell>
-                                    <TableCell>{item.earlyDeparture}</TableCell>
-                                    <TableCell>{item.totalWorkHours}</TableCell>
-                                    <TableCell>
-                                        {item.note ?? (
-                                            <>
-                                                {!item.checkInAt && 'Lupa C/in'}
-                                                {!item.checkOutAt && 'Lupa C/out'}
-                                            </>
-                                        )}
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </DisclosurePanel>
-            </Disclosure>
-        </>
+                <Disclosure>
+                    <Button className='w-full' slot='trigger'>
+                        <IconEye />
+                        Rincian
+                    </Button>
+                    <DisclosurePanel>
+                        <Table>
+                            <TableHeader>
+                                <TableColumn isRowHeader>Tanggal</TableColumn>
+                                <TableColumn id='name'>Nama</TableColumn>
+                                <TableColumn>Unit</TableColumn>
+                                <TableColumn>Shift</TableColumn>
+                                <TableColumn>Check-in</TableColumn>
+                                <TableColumn>Check-out</TableColumn>
+                                <TableColumn>Telat</TableColumn>
+                                <TableColumn>Pulang Cepat</TableColumn>
+                                <TableColumn>Total Jam</TableColumn>
+                                <TableColumn>Keterangan</TableColumn>
+                            </TableHeader>
+                            <TableBody items={data}>
+                                {(item) => (
+                                    <TableRow id={`${item.employee.id}_${item.date}`}>
+                                        <TableCell>{item.date}</TableCell>
+                                        <TableCell
+                                            textValue={fullName(
+                                                item.employee.name,
+                                                item.employee.prefix,
+                                                item.employee.suffix
+                                            )}
+                                        >
+                                            {fullName(item.employee.name, item.employee.prefix, item.employee.suffix)}
+                                        </TableCell>
+                                        <TableCell>{item.employee.departments[0]?.department.name}</TableCell>
+                                        <TableCell>{item.shiftCode}</TableCell>
+                                        <TableCell>{item.checkInAt}</TableCell>
+                                        <TableCell>{item.checkOutAt}</TableCell>
+                                        <TableCell>{item.late}</TableCell>
+                                        <TableCell>{item.earlyDeparture}</TableCell>
+                                        <TableCell>{item.totalWorkHours}</TableCell>
+                                        <TableCell>
+                                            {item.note ?? (
+                                                <>
+                                                    {!item.checkInAt && 'Lupa C/in'}
+                                                    {!item.checkOutAt && 'Lupa C/out'}
+                                                </>
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </DisclosurePanel>
+                </Disclosure>
+            </>
+        )
     )
 }

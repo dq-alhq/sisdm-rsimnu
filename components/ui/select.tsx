@@ -1,5 +1,5 @@
 import type { PopoverProps } from 'react-aria-components/Popover'
-import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { IconChevronsUpDown } from '@intentui/icons'
 import { Button } from 'react-aria-components/Button'
 import { ListBox, type ListBoxProps } from 'react-aria-components/ListBox'
 import {
@@ -100,7 +100,7 @@ const SelectTrigger = ({ children, className, ...props }: SelectTriggerProps) =>
                                     ])}
                                     data-slot='select-value'
                                 />
-                                <ChevronUpDownIcon
+                                <IconChevronsUpDown
                                     className='ms-auto -me-1 size-5 shrink-0 text-muted-fg sm:size-4'
                                     data-slot='chevron'
                                 />

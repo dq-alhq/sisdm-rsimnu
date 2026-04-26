@@ -1,6 +1,6 @@
 'use client'
 
-import { Bars2Icon } from '@heroicons/react/20/solid'
+import { IconBarsThree } from '@intentui/icons'
 import { LayoutGroup, motion } from 'motion/react'
 import { createContext, use, useCallback, useId, useMemo, useState } from 'react'
 import { Link, type LinkProps } from 'react-aria-components/Link'
@@ -318,7 +318,7 @@ const NavbarTrigger = ({ className, onPress, ref, ...props }: NavbarTriggerProps
             size='sq-sm'
             {...props}
         >
-            <Bars2Icon />
+            <IconBarsThree />
             <span className='sr-only'>Toggle Navbar</span>
         </Button>
     )

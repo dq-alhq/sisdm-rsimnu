@@ -1,4 +1,4 @@
-import { CheckCircleIcon, ExclamationCircleIcon, InformationCircleIcon } from '@heroicons/react/24/solid'
+import { IconCircleCheck, IconCircleExclamation, IconCircleInfo, IconTriangleExclamation } from '@intentui/icons'
 import { twJoin, twMerge } from 'tailwind-merge'
 
 export interface NoteProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
@@ -8,10 +8,10 @@ export interface NoteProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
 
 export function Note({ indicator = true, intent = 'default', className, ...props }: NoteProps) {
     const iconMap: Record<string, React.ElementType | null> = {
-        info: InformationCircleIcon,
-        warning: ExclamationCircleIcon,
-        danger: ExclamationCircleIcon,
-        success: CheckCircleIcon,
+        info: IconCircleInfo,
+        warning: IconTriangleExclamation,
+        danger: IconCircleExclamation,
+        success: IconCircleCheck,
         default: null
     }
 

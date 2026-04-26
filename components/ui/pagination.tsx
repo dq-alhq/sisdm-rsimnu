@@ -90,10 +90,12 @@ const PaginationFirst = ({
                 data-slot='pagination-item'
                 {...props}
             >
-                <>
-                    <IconChevronWallLeft />
-                    {children}
-                </>
+                {(values) => (
+                    <>
+                        <IconChevronWallLeft />
+                        {typeof children === 'function' ? children(values) : children}
+                    </>
+                )}
             </Link>
         </li>
     )
@@ -119,10 +121,12 @@ const PaginationPrevious = ({
                 data-slot='pagination-item'
                 {...props}
             >
-                <>
-                    <IconChevronLeft />
-                    {children}
-                </>
+                {(values) => (
+                    <>
+                        <IconChevronLeft />
+                        {typeof children === 'function' ? children(values) : children}
+                    </>
+                )}
             </Link>
         </li>
     )
@@ -148,10 +152,12 @@ const PaginationNext = ({
                 data-slot='pagination-item'
                 {...props}
             >
-                <>
-                    {children}
-                    <IconChevronRight />
-                </>
+                {(values) => (
+                    <>
+                        {typeof children === 'function' ? children(values) : children}
+                        <IconChevronRight />
+                    </>
+                )}
             </Link>
         </li>
     )
@@ -177,10 +183,12 @@ const PaginationLast = ({
                 data-slot='pagination-item'
                 {...props}
             >
-                <>
-                    {children}
-                    <IconChevronWallRight />
-                </>
+                {(values) => (
+                    <>
+                        {typeof children === 'function' ? children(values) : children}
+                        <IconChevronWallRight />
+                    </>
+                )}
             </Link>
         </li>
     )

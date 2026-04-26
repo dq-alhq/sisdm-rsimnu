@@ -28,10 +28,6 @@ import { importShift } from '@/lib/import-shift'
 import { strlimit } from '@/lib/utils'
 import { createShift } from '@/server/services/shift.service'
 
-type ImportError = {
-    row: number
-    errors: string[]
-}
 const shiftOptions = [
     { id: 'P', label: 'Pagi' },
     { id: 'S', label: 'Siang' },

@@ -6,7 +6,7 @@ import type {
     TreeItemProps,
     TreeProps
 } from 'react-aria-components/Tree'
-import { ChevronRightIcon } from '@heroicons/react/20/solid'
+import { IconChevronRight } from '@intentui/icons'
 import { Button } from 'react-aria-components/Button'
 import { TreeItemContent, TreeItem as TreeItemPrimitive, Tree as TreePrimitive } from 'react-aria-components/Tree'
 import { twJoin, twMerge } from 'tailwind-merge'
@@ -95,7 +95,7 @@ const TreeIndicator = ({ values }: { values: Pick<TreeItemContentRenderProps, 'i
             isDisabled={values.isDisabled}
             slot='chevron'
         >
-            <ChevronRightIcon
+            <IconChevronRight
                 className={twJoin(
                     'size-4 transition-transform duration-200 ease-in-out sm:size-5',
                     values.isExpanded && 'rotate-90'

@@ -9,7 +9,7 @@ import type {
     TableBodyProps,
     TableProps as TablePrimitiveProps
 } from 'react-aria-components/Table'
-import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
+import { IconChevronDown, IconChevronRight } from '@intentui/icons'
 import { createContext, use } from 'react'
 import { Button } from 'react-aria-components/Button'
 import { composeRenderProps } from 'react-aria-components/composeRenderProps'
@@ -305,7 +305,7 @@ const TableColumn = ({ isResizable = false, className, ...props }: TableColumnPr
                                 values.isHovered ? 'bg-secondary-fg/10' : ''
                             )}
                         >
-                            <ChevronDownIcon className={values.sortDirection === 'ascending' ? 'rotate-180' : ''} />
+                            <IconChevronDown className={values.sortDirection === 'ascending' ? 'rotate-180' : ''} />
                         </span>
                     )}
                     {isResizable && <ColumnResizer />}
@@ -453,7 +453,7 @@ const TableCell = ({ className, ref, ...props }: TableCellProps) => {
                             )}
                             slot='chevron'
                         >
-                            <ChevronRightIcon
+                            <IconChevronRight
                                 className={twJoin(
                                     'size-4 transition-transform duration-200',
                                     isExpanded && 'rotate-90'

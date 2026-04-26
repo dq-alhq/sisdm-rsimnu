@@ -1,16 +1,16 @@
 'use client'
 
 import {
-    ArrowTrendingUpIcon,
-    BuildingOffice2Icon,
-    CalendarDaysIcon,
-    CheckCircleIcon,
-    ClockIcon,
-    DocumentTextIcon,
-    ExclamationTriangleIcon,
-    UserGroupIcon,
-    UsersIcon
-} from '@heroicons/react/24/outline'
+    IconBuilding,
+    IconCalendarDays,
+    IconChartTrending,
+    IconCircleCheck,
+    IconClock,
+    IconDocumentEdit,
+    IconPeople,
+    IconPeopleFill,
+    IconTriangleExclamation
+} from '@intentui/icons'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { BarChart } from '@/components/ui/bar-chart'
@@ -134,11 +134,11 @@ export function DashboardContents({
                         </div>
                         <div className='flex flex-wrap gap-2'>
                             <Link className={buttonStyles()} href='/absensi'>
-                                <ClockIcon />
+                                <IconClock />
                                 Lihat absensi
                             </Link>
                             <Link className={buttonStyles({ intent: 'outline' })} href='/leave-requests'>
-                                <DocumentTextIcon />
+                                <IconDocumentEdit />
                                 Permohonan cuti
                             </Link>
                         </div>
@@ -147,21 +147,21 @@ export function DashboardContents({
                     <div className='grid gap-3 sm:grid-cols-3'>
                         <QuickState
                             description='pegawai hadir sesuai jadwal'
-                            icon={CheckCircleIcon}
+                            icon={IconCircleCheck}
                             intent='success'
                             title='Kehadiran'
                             value={`${checkedInToday}/${todaySchedulesCount}`}
                         />
                         <QuickState
                             description='perlu tindak lanjut hari ini'
-                            icon={ExclamationTriangleIcon}
+                            icon={IconTriangleExclamation}
                             intent={attentionCount > 0 ? 'warning' : 'success'}
                             title='Perhatian'
                             value={String(attentionCount)}
                         />
                         <QuickState
                             description='pegawai masih masa percobaan'
-                            icon={ArrowTrendingUpIcon}
+                            icon={IconChartTrending}
                             intent='info'
                             title='Probation'
                             value={String(probationEmployees)}
@@ -203,25 +203,25 @@ export function DashboardContents({
             <section className='grid gap-4 md:grid-cols-2 xl:grid-cols-4'>
                 <MetricCard
                     description='pegawai dalam cakupan dashboard'
-                    icon={UsersIcon}
+                    icon={IconPeople}
                     title='Total Pegawai'
                     value={formatCompact(totalEmployees)}
                 />
                 <MetricCard
                     description='pegawai berstatus aktif'
-                    icon={UserGroupIcon}
+                    icon={IconPeopleFill}
                     title='Pegawai Aktif'
                     value={formatCompact(activeEmployees)}
                 />
                 <MetricCard
                     description='unit kerja yang terpantau'
-                    icon={BuildingOffice2Icon}
+                    icon={IconBuilding}
                     title='Unit Kerja'
                     value={formatCompact(totalDepartments)}
                 />
                 <MetricCard
                     description='permohonan menunggu proses'
-                    icon={CalendarDaysIcon}
+                    icon={IconCalendarDays}
                     title='Cuti Pending'
                     value={formatCompact(pendingLeaveCount)}
                 />

@@ -2,7 +2,7 @@
 
 import type { GetPermissionResult } from '@/server/services/auth.service'
 import type { NavItem } from '@/types'
-import { ArrowLeftStartOnRectangleIcon, ChevronUpDownIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import { IconChevronsUpDown, IconCirclePerson, IconLogout } from '@intentui/icons'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { Avatar } from '@/components/ui/avatar'
@@ -119,7 +119,7 @@ function NavUser({ user }: { user: GetPermissionResult['user'] }) {
                         </span>
                     </div>
                 </div>
-                <ChevronUpDownIcon data-slot='chevron' />
+                <IconChevronsUpDown data-slot='chevron' />
             </MenuTrigger>
             <MenuContent
                 aria-label='User Menu'
@@ -135,12 +135,12 @@ function NavUser({ user }: { user: GetPermissionResult['user'] }) {
                     </MenuHeader>
                 </MenuSection>
                 <MenuItem href='/profile'>
-                    <UserCircleIcon />
+                    <IconCirclePerson />
                     <MenuLabel>Profile</MenuLabel>
                 </MenuItem>
                 <MenuSeparator />
                 <MenuItem intent='danger' onAction={signOut}>
-                    <ArrowLeftStartOnRectangleIcon />
+                    <IconLogout />
                     <MenuLabel>Logout</MenuLabel>
                 </MenuItem>
             </MenuContent>

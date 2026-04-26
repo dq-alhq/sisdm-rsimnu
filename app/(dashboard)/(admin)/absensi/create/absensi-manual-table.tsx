@@ -44,7 +44,7 @@ export const AbsensiManualTable = ({ absensiData }: Props) => {
             }
         >()
 
-        absensiData.forEach((item) => {
+        absensiData?.forEach((item) => {
             const employeeId = item.employee.id
             const employeeName = fullName(item.employee.name, item.employee.prefix, item.employee.suffix)
             const departmentName = item.employee.departments[0]?.department.name ?? '-'
@@ -117,76 +117,78 @@ export const AbsensiManualTable = ({ absensiData }: Props) => {
                     Rincian
                 </Button>
                 <DisclosurePanel>
-                    <Table>
-                        <TableHeader>
-                            <TableColumn isRowHeader>Tanggal</TableColumn>
-                            <TableColumn id='name'>Nama</TableColumn>
-                            <TableColumn>Unit</TableColumn>
-                            <TableColumn>Shift</TableColumn>
-                            <TableColumn>Check-in</TableColumn>
-                            <TableColumn>Check-out</TableColumn>
-                            <TableColumn>Telat</TableColumn>
-                            <TableColumn>Pulang Cepat</TableColumn>
-                            <TableColumn>Total Jam</TableColumn>
-                            <TableColumn>Keterangan</TableColumn>
-                            <TableColumn />
-                        </TableHeader>
-                        <TableBody items={absensiData}>
-                            {(item) => (
-                                <TableRow id={`${item.employee.id}_${item.date}`}>
-                                    <TableCell>{item.date}</TableCell>
-                                    <TableCell
-                                        textValue={fullName(
-                                            item.employee.name,
-                                            item.employee.prefix,
-                                            item.employee.suffix
-                                        )}
-                                    >
-                                        {fullName(item.employee.name, item.employee.prefix, item.employee.suffix)}
-                                    </TableCell>
-                                    <TableCell>{item.employee.departments[0]?.department.name}</TableCell>
-                                    <TableCell>{item.shiftCode}</TableCell>
-                                    <TableCell>{item.checkInAt}</TableCell>
-                                    <TableCell>{item.checkOutAt}</TableCell>
-                                    <TableCell>{item.late}</TableCell>
-                                    <TableCell>{item.earlyDeparture}</TableCell>
-                                    <TableCell>{item.totalWorkHours}</TableCell>
-                                    <TableCell>
-                                        {item.note ?? (
-                                            <>
-                                                {!item.checkInAt && 'Lupa C/in'}
-                                                {!item.checkOutAt && 'Lupa C/out'}
-                                            </>
-                                        )}
-                                    </TableCell>
-                                    <TableCell>
-                                        <Button
-                                            intent='danger'
-                                            onPress={async () =>
-                                                toast.error('Yakin ingin menghapus?', {
-                                                    action: {
-                                                        label: 'Hapus',
-                                                        onClick: async () =>
-                                                            await deleteAttendance(item.employee.id, item.date)
-                                                                .then((res) => {
-                                                                    if (res.success)
-                                                                        toast.success('Berhasil menghapus absensi')
-                                                                })
-                                                                .catch((e) => {
-                                                                    toast.error(e)
-                                                                })
-                                                    }
-                                                })
-                                            }
-                                            size='sq-xs'
+                    {absensiData && (
+                        <Table>
+                            <TableHeader>
+                                <TableColumn isRowHeader>Tanggal</TableColumn>
+                                <TableColumn id='name'>Nama</TableColumn>
+                                <TableColumn>Unit</TableColumn>
+                                <TableColumn>Shift</TableColumn>
+                                <TableColumn>Check-in</TableColumn>
+                                <TableColumn>Check-out</TableColumn>
+                                <TableColumn>Telat</TableColumn>
+                                <TableColumn>Pulang Cepat</TableColumn>
+                                <TableColumn>Total Jam</TableColumn>
+                                <TableColumn>Keterangan</TableColumn>
+                                <TableColumn />
+                            </TableHeader>
+                            <TableBody items={absensiData}>
+                                {(item) => (
+                                    <TableRow id={`${item.employee.id}_${item.date}`}>
+                                        <TableCell>{item.date}</TableCell>
+                                        <TableCell
+                                            textValue={fullName(
+                                                item.employee.name,
+                                                item.employee.prefix,
+                                                item.employee.suffix
+                                            )}
                                         >
-                                            <IconTrash />
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
+                                            {fullName(item.employee.name, item.employee.prefix, item.employee.suffix)}
+                                        </TableCell>
+                                        <TableCell>{item.employee.departments[0]?.department.name}</TableCell>
+                                        <TableCell>{item.shiftCode}</TableCell>
+                                        <TableCell>{item.checkInAt}</TableCell>
+                                        <TableCell>{item.checkOutAt}</TableCell>
+                                        <TableCell>{item.late}</TableCell>
+                                        <TableCell>{item.earlyDeparture}</TableCell>
+                                        <TableCell>{item.totalWorkHours}</TableCell>
+                                        <TableCell>
+                                            {item.note ?? (
+                                                <>
+                                                    {!item.checkInAt && 'Lupa C/in'}
+                                                    {!item.checkOutAt && 'Lupa C/out'}
+                                                </>
+                                            )}
+                                        </TableCell>
+                                        <TableCell>
+                                            <Button
+                                                intent='danger'
+                                                onPress={async () =>
+                                                    toast.error('Yakin ingin menghapus?', {
+                                                        action: {
+                                                            label: 'Hapus',
+                                                            onClick: async () =>
+                                                                await deleteAttendance(item.employee.id, item.date)
+                                                                    .then((res) => {
+                                                                        if (res.success)
+                                                                            toast.success('Berhasil menghapus absensi')
+                                                                    })
+                                                                    .catch((e) => {
+                                                                        toast.error(e)
+                                                                    })
+                                                        }
+                                                    })
+                                                }
+                                                size='sq-xs'
+                                            >
+                                                <IconTrash />
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    )}
                 </DisclosurePanel>
             </Disclosure>
         </Autocomplete>

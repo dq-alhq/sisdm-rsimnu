@@ -1,7 +1,7 @@
 'use client'
 
 import type { InputProps as PrimitiveInputProps } from 'react-aria-components/Input'
-import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
+import { IconMinus, IconPlus } from '@intentui/icons'
 import { Button, type ButtonProps } from 'react-aria-components/Button'
 import { NumberField as NumberFieldPrimitive, type NumberFieldProps } from 'react-aria-components/NumberField'
 import { Input, InputGroup } from '@/components/ui/input'
@@ -52,7 +52,7 @@ const StepperButton = ({ slot, className, emblemType = 'default', ...props }: St
             slot={slot}
             {...props}
         >
-            {slot === 'increment' ? <PlusIcon data-slot='stepper-icon' /> : <MinusIcon data-slot='stepper-icon' />}
+            {slot === 'increment' ? <IconPlus data-slot='stepper-icon' /> : <IconMinus data-slot='stepper-icon' />}
         </Button>
     )
 }

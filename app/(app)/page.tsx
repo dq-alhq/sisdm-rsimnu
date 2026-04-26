@@ -1,13 +1,13 @@
 import type { Metadata } from 'next'
 import type { ComponentType, SVGProps } from 'react'
 import {
-    ArrowRightIcon,
-    BuildingOffice2Icon,
-    CalendarDaysIcon,
-    CheckCircleIcon,
-    ClockIcon,
-    DocumentTextIcon
-} from '@heroicons/react/24/outline'
+    IconArrowRight,
+    IconBuilding,
+    IconCalendarDays,
+    IconCircleCheck,
+    IconClock,
+    IconDocumentEdit
+} from '@intentui/icons'
 import Link from 'next/link'
 import { Badge, getApprovalStatus, getJenisCuti } from '@/components/ui/badge'
 import { buttonStyles } from '@/components/ui/button-style'
@@ -150,14 +150,14 @@ export default async function Page() {
                         </div>
 
                         <div className='grid gap-3 sm:grid-cols-3'>
-                            <HeroStat icon={BuildingOffice2Icon} label='Unit Aktif' value={currentUnit} />
+                            <HeroStat icon={IconBuilding} label='Unit Aktif' value={currentUnit} />
                             <HeroStat
-                                icon={CalendarDaysIcon}
+                                icon={IconCalendarDays}
                                 label='Jadwal Bulan Ini'
                                 value={`${monthlySummary.totalDays} hari`}
                             />
                             <HeroStat
-                                icon={CheckCircleIcon}
+                                icon={IconCircleCheck}
                                 label='Hadir Tercatat'
                                 value={`${monthlySummary.attendedDays} hari`}
                             />
@@ -165,15 +165,15 @@ export default async function Page() {
 
                         <div className='flex flex-wrap gap-3'>
                             <Link className={buttonStyles()} href='/jadwal'>
-                                <CalendarDaysIcon data-slot='icon' />
+                                <IconCalendarDays data-slot='icon' />
                                 Lihat Jadwal
                             </Link>
                             <Link className={buttonStyles({ intent: 'outline' })} href='/rekap-absensi'>
-                                <ClockIcon data-slot='icon' />
+                                <IconClock data-slot='icon' />
                                 Rekap Absensi
                             </Link>
                             <Link className={buttonStyles({ intent: 'plain' })} href='/leave-requests/create'>
-                                <DocumentTextIcon data-slot='icon' />
+                                <IconDocumentEdit data-slot='icon' />
                                 Ajukan Cuti
                             </Link>
                         </div>
@@ -276,7 +276,7 @@ export default async function Page() {
                                         </p>
                                     </div>
                                     <div className='flex items-center gap-2 text-muted-fg text-sm'>
-                                        <ClockIcon className='size-4' />
+                                        <IconClock className='size-4' />
                                         <span>{schedule.checkInAt ?? '--:--'}</span>
                                         <span>-</span>
                                         <span>{schedule.checkOutAt ?? '--:--'}</span>
@@ -337,7 +337,7 @@ export default async function Page() {
                                 href='/profile'
                             >
                                 Lihat profil lengkap
-                                <ArrowRightIcon className='size-4' />
+                                <IconArrowRight className='size-4' />
                             </Link>
                         </CardContent>
                     </Card>

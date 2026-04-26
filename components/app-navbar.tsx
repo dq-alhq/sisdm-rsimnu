@@ -1,7 +1,7 @@
 'use client'
 
 import type { GetPermissionResult } from '@/server/services/auth.service'
-import { ArrowRightStartOnRectangleIcon, Cog6ToothIcon } from '@heroicons/react/24/outline'
+import { IconCalendarClock, IconGrid4, IconLogout, IconPeople } from '@intentui/icons'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { Avatar } from '@/components/ui/avatar'
@@ -27,7 +27,6 @@ import { getNavigations } from '@/config/navigations'
 import { authClient } from '@/lib/auth-client'
 import { AppLogo } from './app-logo'
 import { ModeToggle } from './mode-toggle'
-import { IconCalendarClock, IconGrid4, IconPeople } from '@intentui/icons'
 
 export default function AppNavbar(props: NavbarProps & { permissions: GetPermissionResult }) {
     const pathname = usePathname()
@@ -119,7 +118,7 @@ export function UserMenu({ user }: { user: GetPermissionResult['user'] }) {
                 </MenuItem>
                 <MenuSeparator />
                 <MenuItem intent='danger' onAction={signOut}>
-                    <ArrowRightStartOnRectangleIcon />
+                    <IconLogout />
                     Log out
                 </MenuItem>
             </MenuContent>

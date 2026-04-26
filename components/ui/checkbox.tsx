@@ -1,6 +1,6 @@
 'use client'
 
-import { CheckIcon, MinusIcon } from '@heroicons/react/20/solid'
+import { IconCheck, IconMinus } from '@intentui/icons'
 import { Checkbox as CheckboxPrimitive, type CheckboxProps } from 'react-aria-components/Checkbox'
 import { CheckboxGroup as CheckboxGroupPrimitive, type CheckboxGroupProps } from 'react-aria-components/CheckboxGroup'
 import { composeRenderProps } from 'react-aria-components/composeRenderProps'
@@ -34,9 +34,9 @@ export function Checkbox({ className, children, ...props }: CheckboxProps) {
             {composeRenderProps(children, (children, { isSelected, isIndeterminate, isFocusVisible, isInvalid }) => {
                 const isStringChild = typeof children === 'string'
                 const indicator = isIndeterminate ? (
-                    <MinusIcon data-slot='check-indicator' />
+                    <IconMinus data-slot='check-indicator' />
                 ) : isSelected ? (
-                    <CheckIcon data-slot='check-indicator' />
+                    <IconCheck data-slot='check-indicator' />
                 ) : null
 
                 const content = isStringChild ? <CheckboxLabel>{children}</CheckboxLabel> : children

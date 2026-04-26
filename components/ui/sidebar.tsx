@@ -3,8 +3,7 @@
 import type { DisclosurePanelProps, DisclosureProps } from 'react-aria-components/Disclosure'
 import type { LinkProps, LinkRenderProps } from 'react-aria-components/Link'
 import type { TreeItemContentProps, TreeItemProps, TreeProps } from 'react-aria-components/Tree'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { IconSidebar } from '@intentui/icons'
+import { IconChevronDown, IconSidebar } from '@intentui/icons'
 import { createContext, use, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { type ButtonProps, Button as Trigger } from 'react-aria-components/Button'
 import { composeRenderProps } from 'react-aria-components/composeRenderProps'
@@ -82,6 +81,7 @@ const SidebarProvider = ({
                 setInternalOpenState(openState)
             }
 
+            // biome-ignore lint/suspicious/noDocumentCookie: no-problem
             document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
         },
         [setOpenProp, open]
@@ -588,7 +588,7 @@ const SidebarDisclosureTrigger = ({ className, ref, ...props }: SidebarDisclosur
                     <>
                         {typeof props.children === 'function' ? props.children(values) : props.children}
                         {state !== 'collapsed' && (
-                            <ChevronDownIcon
+                            <IconChevronDown
                                 className='z-10 ms-auto size-3.5 transition-transform duration-200 group-aria-expanded/sidebar-disclosure-trigger:rotate-180'
                                 data-slot='chevron'
                             />

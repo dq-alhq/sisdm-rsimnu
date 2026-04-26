@@ -1,18 +1,18 @@
 'use server'
 
-import z, {parseFormData} from "@/lib/zod";
-import db from "@/lib/db";
-import {revalidatePath} from "next/cache";
+import { revalidatePath } from 'next/cache'
+import db from '@/lib/db'
+import z, { parseFormData } from '@/lib/zod'
 
 const departmentSchema = z.object({
     id: z.string(),
     name: z.string(),
-    isMedis: z.preprocess((val) => val === "on", z.boolean()),
-    isActive: z.preprocess((val) => val === "on", z.boolean()),
+    isMedis: z.preprocess((val) => val === 'on', z.boolean()),
+    isActive: z.preprocess((val) => val === 'on', z.boolean())
 })
 
-export const upsertDepartment = async (_:any, formData:FormData) => {
-    const {data,success,error} = departmentSchema.safeParse(Object.fromEntries(formData))
+export const upsertDepartment = async (_: any, formData: FormData) => {
+    const { data, success, error } = departmentSchema.safeParse(Object.fromEntries(formData))
 
     if (!success) {
         return {
@@ -28,14 +28,14 @@ export const upsertDepartment = async (_:any, formData:FormData) => {
                 id: data.id
             },
             update: data,
-            create:data
+            create: data
         })
         revalidatePath('/departments')
         return {
             success: true,
-            message: 'Unit berhasil diperbarui',
+            message: 'Unit berhasil diperbarui'
         }
-    } catch (error:any) {
+    } catch (error: any) {
         return {
             success: false,
             error: error.message

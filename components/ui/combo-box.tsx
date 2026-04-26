@@ -3,7 +3,7 @@
 import type { ComboBoxProps as ComboBoxPrimitiveProps, ComboBoxValueProps } from 'react-aria-components/ComboBox'
 import type { InputProps } from 'react-aria-components/Input'
 import type { PopoverProps } from 'react-aria-components/Popover'
-import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { IconChevronsUpDown } from '@intentui/icons'
 import { Button } from 'react-aria-components/Button'
 import {
     ComboBoxContext,
@@ -69,7 +69,7 @@ const ComboBoxInput = (props: InputProps) => {
             <Input {...props} placeholder={props?.placeholder} />
             <Button className='absolute end-0 top-0 grid h-full w-11 cursor-default place-content-center sm:w-9'>
                 {!context?.inputValue && (
-                    <ChevronUpDownIcon className='-me-1 size-5 text-muted-fg sm:size-4' data-slot='chevron' />
+                    <IconChevronsUpDown className='-me-1 size-5 text-muted-fg sm:size-4' data-slot='chevron' />
                 )}
             </Button>
         </span>

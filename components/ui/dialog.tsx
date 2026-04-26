@@ -1,7 +1,7 @@
 'use client'
 
 import type { TextProps } from 'react-aria-components/Text'
-import { XMarkIcon } from '@heroicons/react/24/solid'
+import { IconX } from '@intentui/icons'
 import { Button as PrimitiveButton } from 'react-aria-components/Button'
 import { Dialog as PrimitiveDialog } from 'react-aria-components/Dialog'
 import { Heading, type HeadingProps } from 'react-aria-components/Heading'
@@ -119,7 +119,7 @@ const DialogCloseIcon = ({ className, ...props }: CloseButtonIndicatorProps) => 
             )}
             slot='close'
         >
-            <XMarkIcon className='size-4' />
+            <IconX className='size-4' />
         </PrimitiveButton>
     ) : null
 }

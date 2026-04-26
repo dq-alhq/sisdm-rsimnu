@@ -3,7 +3,7 @@
 import type { DateDuration } from '@internationalized/date'
 import type { DateValue } from 'react-aria-components/DateField'
 import type { PopoverProps } from 'react-aria-components/Popover'
-import { CalendarDateRangeIcon } from '@heroicons/react/24/outline'
+import { IconCalendar2 } from '@intentui/icons'
 import { Button } from 'react-aria-components/Button'
 import {
     DateRangePicker as DateRangePickerPrimitive,
@@ -74,7 +74,7 @@ export function DateRangePickerTrigger({ className, ...props }: React.ComponentP
                 )}
                 data-slot='date-picker-trigger'
             >
-                <CalendarDateRangeIcon />
+                <IconCalendar2 />
             </Button>
         </InputGroup>
     )

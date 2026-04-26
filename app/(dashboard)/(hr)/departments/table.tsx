@@ -63,7 +63,7 @@ export const DepartmentsTable = ({ departments }: { departments: GetDepartmentsR
                                             toast.error('Yakin ingin menghapus data ini?', {
                                                 action: {
                                                     label: 'Delete',
-                                                    onClick: () => console.log(department.id)
+                                                    onClick: () => toast.error('Oh, Tidak bisa')
                                                 },
                                                 cancel: {
                                                     label: 'Cancel',

@@ -6,7 +6,7 @@ import type {
     MenuSectionProps as MenuSectionPrimitiveProps,
     MenuTriggerProps as MenuTriggerPrimitiveProps
 } from 'react-aria-components/Menu'
-import { CheckIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
+import { IconCheck, IconChevronRight } from '@intentui/icons'
 import { Button, type ButtonProps } from 'react-aria-components/Button'
 import { Collection } from 'react-aria-components/Collection'
 import { composeRenderProps } from 'react-aria-components/composeRenderProps'
@@ -116,12 +116,12 @@ const MenuItem = ({ className, intent, children, ...props }: MenuItemProps) => {
         >
             {(values) => (
                 <>
-                    {values.isSelected && ['single', 'multiple'].includes(values.selectionMode) && <CheckIcon />}
+                    {values.isSelected && ['single', 'multiple'].includes(values.selectionMode) && <IconCheck />}
 
                     {typeof children === 'function' ? children(values) : children}
 
                     {values.hasSubmenu && (
-                        <ChevronRightIcon
+                        <IconChevronRight
                             className='absolute end-0 size-4 -translate-y-1/2'
                             data-slot='chevron'
                             style={{

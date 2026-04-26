@@ -2,7 +2,7 @@
 
 import type { CalendarProps as CalendarPrimitiveProps } from 'react-aria-components/Calendar'
 import type { DateValue } from 'react-aria-components/DateField'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import { IconChevronLeft, IconChevronRight } from '@intentui/icons'
 import { type CalendarDate, getLocalTimeZone, today } from '@internationalized/date'
 import { useDateFormatter } from '@react-aria/i18n'
 import { use } from 'react'
@@ -79,7 +79,7 @@ const CalendarHeader = ({ isRange, className, ...props }: React.ComponentProps<'
                     size='sq-sm'
                     slot='previous'
                 >
-                    {direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    {direction === 'rtl' ? <IconChevronRight /> : <IconChevronLeft />}
                 </Button>
                 <Button
                     className='size-8 **:data-[slot=icon]:text-fg sm:size-7'
@@ -88,7 +88,7 @@ const CalendarHeader = ({ isRange, className, ...props }: React.ComponentProps<'
                     size='sq-sm'
                     slot='next'
                 >
-                    {direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    {direction === 'rtl' ? <IconChevronLeft /> : <IconChevronRight />}
                 </Button>
             </div>
         </header>

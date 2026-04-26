@@ -2,7 +2,7 @@
 
 import type { VariantProps } from 'tailwind-variants'
 import type { buttonStyles } from '@/components/ui/button-style'
-import { CameraIcon, FolderIcon, PaperClipIcon } from '@heroicons/react/24/outline'
+import { IconCamera, IconFolder, IconPaperclip } from '@intentui/icons'
 import {
     FileTrigger as FileTriggerPrimitive,
     type FileTriggerProps as FileTriggerPrimitiveProps
@@ -30,11 +30,11 @@ export function FileTrigger({
             <Button className={className} intent={intent} isCircle={isCircle} isDisabled={props.isDisabled} size={size}>
                 {!props.isPending ? (
                     props.defaultCamera ? (
-                        <CameraIcon />
+                        <IconCamera />
                     ) : props.acceptDirectory ? (
-                        <FolderIcon />
+                        <IconFolder />
                     ) : (
-                        <PaperClipIcon />
+                        <IconPaperclip />
                     )
                 ) : (
                     <Loader />

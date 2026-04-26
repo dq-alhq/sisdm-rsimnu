@@ -1,7 +1,7 @@
 'use client'
 
 import type { ListBoxItemProps, ListBoxProps, ListBoxSectionProps } from 'react-aria-components/ListBox'
-import { CheckIcon } from '@heroicons/react/20/solid'
+import { IconCheck } from '@intentui/icons'
 import { composeRenderProps } from 'react-aria-components/composeRenderProps'
 import { ListBoxItem as ListBoxItemPrimitive, ListBox as ListBoxPrimitive } from 'react-aria-components/ListBox'
 import { twJoin, twMerge } from 'tailwind-merge'
@@ -85,7 +85,7 @@ const ListBoxItem = <T extends object>({ children, className, ...props }: ListBo
                             </svg>
                         )}
                         {isSelected && (
-                            <CheckIcon
+                            <IconCheck
                                 className='-mx-0.5 me-2 mt-0.5 h-lh w-5 shrink-0 group-allows-dragging:col-start-2 sm:mt-1 sm:w-4'
                                 data-slot='check-indicator'
                             />

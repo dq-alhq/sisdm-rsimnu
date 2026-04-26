@@ -4,7 +4,7 @@ import type { DateDuration } from '@internationalized/date'
 import type { DateValue } from 'react-aria-components/DateField'
 import type { GroupProps } from 'react-aria-components/Group'
 import type { PopoverProps } from 'react-aria-components/Popover'
-import { CalendarDaysIcon } from '@heroicons/react/24/outline'
+import { IconCalendarDays } from '@intentui/icons'
 import { Button } from 'react-aria-components/Button'
 import {
     DatePicker as DatePickerPrimitive,
@@ -91,7 +91,7 @@ export function DatePickerTrigger({ className, ...props }: GroupProps) {
                 )}
                 data-slot='date-picker-trigger'
             >
-                <CalendarDaysIcon />
+                <IconCalendarDays />
             </Button>
         </InputGroup>
     )
