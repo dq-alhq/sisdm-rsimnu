@@ -1,7 +1,6 @@
 export const app = {
     name: 'SISDM-RSIMNU',
-    // url: 'https://sisdm-rsimnu.vercel.app',
-    url: 'http://localhost:3000',
+    url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
     description: 'Sistem Manajemen SDM RSI Mabarrot MWC NU Bungah',
     author: {
         username: 'dq-alhq',
