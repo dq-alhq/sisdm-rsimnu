@@ -1,6 +1,6 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, unstable_cache } from 'next/cache'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { cache } from 'react'
@@ -10,6 +10,33 @@ import db from '@/lib/db'
 import z from '@/lib/zod'
 
 const PERF_LOG = process.env.PERF_LOG === '1'
+
+const getActiveDepartmentsByUserId = unstable_cache(
+    async (userId: string) => {
+        if (!userId) return []
+
+        return db.employeesOnDepartments.findMany({
+            where: {
+                employee: {
+                    userId
+                },
+                endAt: null
+            },
+            select: {
+                departmentId: true,
+                position: true,
+                employeeId: true,
+                department: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        })
+    },
+    ['permissions-departments'],
+    { revalidate: 60 }
+)
 
 const createUserSchema = z.object({
     role: z.enum(['user', 'admin']),
@@ -241,34 +268,12 @@ const getPermissionsImpl = async () => {
     const sessionMs = performance.now() - sessionStartedAt
     const user = session?.user
     const departmentsStartedAt = performance.now()
-    const departments = await db.employeesOnDepartments.findMany({
-        where: {
-            AND: [
-                {
-                    employee: {
-                        userId: session?.user.id
-                    }
-                },
-                { endAt: null }
-            ]
-        },
-        select: {
-            endAt: true,
-            departmentId: true,
-            position: true,
-            employeeId: true,
-            department: {
-                select: {
-                    name: true
-                }
-            }
-        }
-    })
+    const departments = await getActiveDepartmentsByUserId(session?.user.id || '')
     const departmentsMs = performance.now() - departmentsStartedAt
 
     const admin = user?.role === 'admin'
     const hr = departments.some((d) => d.position?.toLowerCase().includes('sdm'))
-    const currentDepartment = departments.find((d) => d.endAt === null)
+    const currentDepartment = departments[0]
     const supervisor = departments
         .filter((d) => d.position?.toLowerCase().includes('supervisor'))
         .map((d) => ({
