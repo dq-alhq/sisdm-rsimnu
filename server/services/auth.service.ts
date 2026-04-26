@@ -9,6 +9,8 @@ import { auth } from '@/lib/auth'
 import db from '@/lib/db'
 import z from '@/lib/zod'
 
+const PERF_LOG = process.env.PERF_LOG === '1'
+
 const createUserSchema = z.object({
     role: z.enum(['user', 'admin']),
     username: z.string().min(1),
@@ -233,8 +235,12 @@ export const getUserById = async (id: string) => {
 }
 
 const getPermissionsImpl = async () => {
+    const startedAt = performance.now()
+    const sessionStartedAt = performance.now()
     const session = await auth.api.getSession({ headers: await headers() })
+    const sessionMs = performance.now() - sessionStartedAt
     const user = session?.user
+    const departmentsStartedAt = performance.now()
     const departments = await db.employeesOnDepartments.findMany({
         where: {
             AND: [
@@ -258,6 +264,7 @@ const getPermissionsImpl = async () => {
             }
         }
     })
+    const departmentsMs = performance.now() - departmentsStartedAt
 
     const admin = user?.role === 'admin'
     const hr = departments.some((d) => d.position?.toLowerCase().includes('sdm'))
@@ -269,13 +276,22 @@ const getPermissionsImpl = async () => {
             name: d.department.name
         }))
 
-    return {
+    const result = {
         user,
         admin,
         hr,
         supervisor,
         currentDepartment
     }
+
+    if (PERF_LOG) {
+        const totalMs = performance.now() - startedAt
+        console.info(
+            `[perf][auth] getPermissions total=${Math.round(totalMs)}ms session=${Math.round(sessionMs)}ms departments=${Math.round(departmentsMs)}ms user=${user?.id ?? 'anonymous'}`
+        )
+    }
+
+    return result
 }
 export const getPermissions = cache(getPermissionsImpl)
 export type GetPermissionResult = Awaited<ReturnType<typeof getPermissions>>

@@ -5,13 +5,18 @@ import { fullName } from '@/lib/utils'
 import { getPermissions } from '@/server/services/auth.service'
 import { DashboardContents } from './dashboard-contents'
 
+const PERF_LOG = process.env.PERF_LOG === '1'
+
 export const metadata: Metadata = {
     title: 'Dashboard',
     description: 'Ringkasan operasional pegawai, absensi, unit kerja, dan cuti.'
 }
 
 export default async function Dashboard() {
+    const pageStartedAt = performance.now()
+    const permissionsStartedAt = performance.now()
     const permissions = await getPermissions()
+    const permissionsMs = performance.now() - permissionsStartedAt
 
     const scopedDepartmentIds = (
         permissions.admin || permissions.hr
@@ -36,6 +41,7 @@ export default async function Dashboard() {
           ? 'hr'
           : scopedDepartmentIds.join(',') || permissions.user?.id || 'user'
 
+    const dashboardDataStartedAt = performance.now()
     const {
         totalEmployees,
         activeEmployees,
@@ -55,6 +61,7 @@ export default async function Dashboard() {
         startOfRange,
         todayKey
     })
+    const dashboardDataMs = performance.now() - dashboardDataStartedAt
 
     const checkedInToday = todaySchedules.filter((item) => item.checkInAt).length
     const lateToday = todaySchedules.filter((item) => item.late).length
@@ -127,6 +134,13 @@ export default async function Dashboard() {
         startLabel: formatShortDate(leave.startDate),
         endLabel: formatShortDate(leave.endDate)
     }))
+
+    if (PERF_LOG) {
+        const totalMs = performance.now() - pageStartedAt
+        console.info(
+            `[perf][dashboard] total=${Math.round(totalMs)}ms permissions=${Math.round(permissionsMs)}ms data=${Math.round(dashboardDataMs)}ms scope=${scopeCacheKey}`
+        )
+    }
 
     return (
         <DashboardContents
