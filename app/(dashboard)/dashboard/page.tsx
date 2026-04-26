@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { unstable_cache } from 'next/cache'
 import db from '@/lib/db'
 import { fullName } from '@/lib/utils'
 import { getPermissions } from '@/server/services/auth.service'
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 export default async function Dashboard() {
     const permissions = await getPermissions()
 
-    const scopedDepartmentIds =
+    const scopedDepartmentIds = (
         permissions.admin || permissions.hr
             ? []
             : ([
@@ -23,56 +24,19 @@ export default async function Dashboard() {
                       ].filter(Boolean)
                   )
               ] as string[])
-
-    const employeeScopeWhere = scopedDepartmentIds.length
-        ? {
-              departments: {
-                  some: {
-                      departmentId: {
-                          in: scopedDepartmentIds
-                      },
-                      endAt: null
-                  }
-              }
-          }
-        : {}
-
-    const scheduleScopeWhere = scopedDepartmentIds.length
-        ? {
-              employee: {
-                  departments: {
-                      some: {
-                          departmentId: {
-                              in: scopedDepartmentIds
-                          },
-                          endAt: null
-                      }
-                  }
-              }
-          }
-        : {}
-
-    const leaveScopeWhere = scopedDepartmentIds.length
-        ? {
-              employee: {
-                  departments: {
-                      some: {
-                          departmentId: {
-                              in: scopedDepartmentIds
-                          },
-                          endAt: null
-                      }
-                  }
-              }
-          }
-        : {}
+    ).sort()
 
     const todayKey = getJakartaDateKey()
     const todayLabel = formatLongDate(todayKey)
     const lastSevenDays = buildDateRange(todayKey, 7)
     const startOfRange = lastSevenDays[0] ?? todayKey
+    const scopeCacheKey = permissions.admin
+        ? 'admin'
+        : permissions.hr
+          ? 'hr'
+          : scopedDepartmentIds.join(',') || permissions.user?.id || 'user'
 
-    const [
+    const {
         totalEmployees,
         activeEmployees,
         probationEmployees,
@@ -85,163 +49,12 @@ export default async function Dashboard() {
         recentSchedules,
         upcomingLeaves,
         departmentSnapshot
-    ] = await Promise.all([
-        db.employee.count({
-            where: employeeScopeWhere
-        }),
-        db.employee.count({
-            where: {
-                ...employeeScopeWhere,
-                status: 'active'
-            }
-        }),
-        db.employee.count({
-            where: {
-                ...employeeScopeWhere,
-                status: 'probation'
-            }
-        }),
-        db.department.count({
-            where: scopedDepartmentIds.length
-                ? {
-                      id: {
-                          in: scopedDepartmentIds
-                      }
-                  }
-                : {
-                      isActive: true
-                  }
-        }),
-        db.leave.count({
-            where: {
-                ...leaveScopeWhere,
-                status: 'pending'
-            }
-        }),
-        db.leave.count({
-            where: {
-                ...leaveScopeWhere,
-                status: 'supervisorApproved'
-            }
-        }),
-        db.leave.count({
-            where: {
-                ...leaveScopeWhere,
-                status: 'hrApproved'
-            }
-        }),
-        db.leave.count({
-            where: {
-                ...leaveScopeWhere,
-                status: 'rejected'
-            }
-        }),
-        db.schedule.findMany({
-            where: {
-                ...scheduleScopeWhere,
-                date: todayKey
-            },
-            select: {
-                checkInAt: true,
-                checkOutAt: true,
-                late: true,
-                note: true,
-                shiftCode: true,
-                employee: {
-                    select: {
-                        name: true,
-                        prefix: true,
-                        suffix: true,
-                        departments: {
-                            where: {
-                                endAt: null
-                            },
-                            select: {
-                                department: {
-                                    select: {
-                                        name: true
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }),
-        db.schedule.findMany({
-            where: {
-                ...scheduleScopeWhere,
-                date: {
-                    gte: startOfRange,
-                    lte: todayKey
-                }
-            },
-            select: {
-                date: true,
-                checkInAt: true,
-                late: true
-            }
-        }),
-        db.leave.findMany({
-            where: {
-                ...leaveScopeWhere,
-                endDate: {
-                    gte: todayKey
-                }
-            },
-            orderBy: [{ startDate: 'asc' }, { createdAt: 'asc' }],
-            take: 5,
-            select: {
-                id: true,
-                startDate: true,
-                endDate: true,
-                status: true,
-                leaveType: true,
-                employee: {
-                    select: {
-                        name: true,
-                        prefix: true,
-                        suffix: true,
-                        departments: {
-                            where: {
-                                endAt: null
-                            },
-                            select: {
-                                department: {
-                                    select: {
-                                        name: true
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }),
-        db.department.findMany({
-            where: scopedDepartmentIds.length
-                ? {
-                      id: {
-                          in: scopedDepartmentIds
-                      }
-                  }
-                : {
-                      isActive: true
-                  },
-            select: {
-                id: true,
-                name: true,
-                employees: {
-                    where: {
-                        endAt: null
-                    },
-                    select: {
-                        employeeId: true
-                    }
-                }
-            }
-        })
-    ])
+    } = await getDashboardData({
+        scopeCacheKey,
+        scopedDepartmentIds,
+        startOfRange,
+        todayKey
+    })
 
     const checkedInToday = todaySchedules.filter((item) => item.checkInAt).length
     const lateToday = todaySchedules.filter((item) => item.late).length
@@ -433,3 +246,248 @@ function getRoleBadges({ admin, hr, isSupervisor }: { admin: boolean; hr: boolea
 
     return badges
 }
+
+type DashboardDataParams = {
+    scopedDepartmentIds: string[]
+    todayKey: string
+    startOfRange: string
+    scopeCacheKey: string
+}
+
+const getDashboardData = unstable_cache(
+    async ({ scopedDepartmentIds, todayKey, startOfRange, scopeCacheKey }: DashboardDataParams) => {
+        // Included in function args so cache is scoped by user-access scope.
+        void scopeCacheKey
+
+        const employeeScopeWhere = scopedDepartmentIds.length
+            ? {
+                  departments: {
+                      some: {
+                          departmentId: {
+                              in: scopedDepartmentIds
+                          },
+                          endAt: null
+                      }
+                  }
+              }
+            : {}
+
+        const scheduleScopeWhere = scopedDepartmentIds.length
+            ? {
+                  employee: {
+                      departments: {
+                          some: {
+                              departmentId: {
+                                  in: scopedDepartmentIds
+                              },
+                              endAt: null
+                          }
+                      }
+                  }
+              }
+            : {}
+
+        const leaveScopeWhere = scopedDepartmentIds.length
+            ? {
+                  employee: {
+                      departments: {
+                          some: {
+                              departmentId: {
+                                  in: scopedDepartmentIds
+                              },
+                              endAt: null
+                          }
+                      }
+                  }
+              }
+            : {}
+
+        const [
+            totalEmployees,
+            activeEmployees,
+            probationEmployees,
+            totalDepartments,
+            pendingLeaveCount,
+            supervisorApprovedLeaveCount,
+            hrApprovedLeaveCount,
+            rejectedLeaveCount,
+            todaySchedules,
+            recentSchedules,
+            upcomingLeaves,
+            departmentSnapshot
+        ] = await Promise.all([
+            db.employee.count({
+                where: employeeScopeWhere
+            }),
+            db.employee.count({
+                where: {
+                    ...employeeScopeWhere,
+                    status: 'active'
+                }
+            }),
+            db.employee.count({
+                where: {
+                    ...employeeScopeWhere,
+                    status: 'probation'
+                }
+            }),
+            db.department.count({
+                where: scopedDepartmentIds.length
+                    ? {
+                          id: {
+                              in: scopedDepartmentIds
+                          }
+                      }
+                    : {
+                          isActive: true
+                      }
+            }),
+            db.leave.count({
+                where: {
+                    ...leaveScopeWhere,
+                    status: 'pending'
+                }
+            }),
+            db.leave.count({
+                where: {
+                    ...leaveScopeWhere,
+                    status: 'supervisorApproved'
+                }
+            }),
+            db.leave.count({
+                where: {
+                    ...leaveScopeWhere,
+                    status: 'hrApproved'
+                }
+            }),
+            db.leave.count({
+                where: {
+                    ...leaveScopeWhere,
+                    status: 'rejected'
+                }
+            }),
+            db.schedule.findMany({
+                where: {
+                    ...scheduleScopeWhere,
+                    date: todayKey
+                },
+                select: {
+                    checkInAt: true,
+                    checkOutAt: true,
+                    late: true,
+                    note: true,
+                    shiftCode: true,
+                    employee: {
+                        select: {
+                            name: true,
+                            prefix: true,
+                            suffix: true,
+                            departments: {
+                                where: {
+                                    endAt: null
+                                },
+                                select: {
+                                    department: {
+                                        select: {
+                                            name: true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }),
+            db.schedule.findMany({
+                where: {
+                    ...scheduleScopeWhere,
+                    date: {
+                        gte: startOfRange,
+                        lte: todayKey
+                    }
+                },
+                select: {
+                    date: true,
+                    checkInAt: true,
+                    late: true
+                }
+            }),
+            db.leave.findMany({
+                where: {
+                    ...leaveScopeWhere,
+                    endDate: {
+                        gte: todayKey
+                    }
+                },
+                orderBy: [{ startDate: 'asc' }, { createdAt: 'asc' }],
+                take: 5,
+                select: {
+                    id: true,
+                    startDate: true,
+                    endDate: true,
+                    status: true,
+                    leaveType: true,
+                    employee: {
+                        select: {
+                            name: true,
+                            prefix: true,
+                            suffix: true,
+                            departments: {
+                                where: {
+                                    endAt: null
+                                },
+                                select: {
+                                    department: {
+                                        select: {
+                                            name: true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }),
+            db.department.findMany({
+                where: scopedDepartmentIds.length
+                    ? {
+                          id: {
+                              in: scopedDepartmentIds
+                          }
+                      }
+                    : {
+                          isActive: true
+                      },
+                select: {
+                    id: true,
+                    name: true,
+                    employees: {
+                        where: {
+                            endAt: null
+                        },
+                        select: {
+                            employeeId: true
+                        }
+                    }
+                }
+            })
+        ])
+
+        return {
+            totalEmployees,
+            activeEmployees,
+            probationEmployees,
+            totalDepartments,
+            pendingLeaveCount,
+            supervisorApprovedLeaveCount,
+            hrApprovedLeaveCount,
+            rejectedLeaveCount,
+            todaySchedules,
+            recentSchedules,
+            upcomingLeaves,
+            departmentSnapshot
+        }
+    },
+    ['dashboard-summary'],
+    { revalidate: 20 }
+)
