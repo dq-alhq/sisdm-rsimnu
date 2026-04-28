@@ -300,12 +300,13 @@ const calculateAttendanceMetrics = ({
     const normalizedShiftEnd = shift.overnight ? shift.endMinutes + 24 * 60 : shift.endMinutes
     const normalizedCheckOut =
         shift.overnight && checkOutMinutes < shift.startMinutes ? checkOutMinutes + 24 * 60 : checkOutMinutes
-    const normalizedCheckOutFromCheckIn =
-        checkOutAt && checkInAt && checkOutMinutes < checkInMinutes ? checkOutMinutes + 24 * 60 : normalizedCheckOut
 
     const lateMinutes = checkInAt ? Math.max(0, checkInMinutes - shift.startMinutes) : 0
     const earlyDepartureMinutes = checkOutAt ? Math.max(0, normalizedShiftEnd - normalizedCheckOut) : 0
-    const totalWorkMinutes = checkInAt && checkOutAt ? Math.max(0, normalizedCheckOutFromCheckIn - checkInMinutes) : 0
+    const totalWorkMinutes =
+        checkInAt && checkOutAt
+            ? Math.max(0, normalizedShiftEnd - shift.startMinutes - lateMinutes - earlyDepartureMinutes)
+            : 0
 
     return {
         late: formatDuration(lateMinutes),

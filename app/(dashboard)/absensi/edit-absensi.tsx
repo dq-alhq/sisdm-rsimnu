@@ -72,15 +72,13 @@ export const EditAbsensi = ({ defaultValues, employeeName }: Props) => {
         const normalizedShiftEnd = shift.overnight ? shift.endMinutes + 24 * 60 : shift.endMinutes
         const normalizedCheckOut =
             shift.overnight && checkOutMinutes < shift.startMinutes ? checkOutMinutes + 24 * 60 : checkOutMinutes
-        const normalizedCheckOutFromCheckIn =
-            nextCheckOutAt && nextCheckInAt && checkOutMinutes < checkInMinutes
-                ? checkOutMinutes + 24 * 60
-                : normalizedCheckOut
 
         const lateMinutes = nextCheckInAt ? Math.max(0, checkInMinutes - shift.startMinutes) : 0
         const earlyDepartureMinutes = nextCheckOutAt ? Math.max(0, normalizedShiftEnd - normalizedCheckOut) : 0
         const totalWorkMinutes =
-            nextCheckInAt && nextCheckOutAt ? Math.max(0, normalizedCheckOutFromCheckIn - checkInMinutes) : 0
+            nextCheckInAt && nextCheckOutAt
+                ? Math.max(0, normalizedShiftEnd - shift.startMinutes - lateMinutes - earlyDepartureMinutes)
+                : 0
 
         setLate(formatDuration(lateMinutes))
         setEarlyDeparture(formatDuration(earlyDepartureMinutes))
